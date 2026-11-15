@@ -165,7 +165,10 @@ export function NewsCard({ item }: { item: NewsItem }) {
       href={`/news/${item.slug}`}
       className="group flex flex-col gap-2 rounded-3xl bg-surface p-7 transition-colors hover:bg-surface-2"
     >
-      <div className="flex items-center gap-2 text-xs text-ink-faint">
+      <div className="flex flex-wrap items-center gap-2 text-xs text-ink-faint">
+        <span className="rounded-full bg-surface-2 px-2 py-0.5 text-ink-dim">
+          {item.category}
+        </span>
         <span>{item.date}</span>
         <span className="h-0.5 w-0.5 rounded-full bg-ink-faint" />
         <span>{item.source}</span>
@@ -174,7 +177,7 @@ export function NewsCard({ item }: { item: NewsItem }) {
         {item.title}
       </h3>
       <p className="line-clamp-2 text-[14px] leading-6 text-ink-dim">
-        {item.body[0]}
+        {item.summary}
       </p>
       <div className="mt-auto pt-6 text-[13px] text-accent">
         阅读全文 →

@@ -46,6 +46,9 @@ function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
 export default function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const latestNews = [...news].sort((a, b) =>
+    b.date.localeCompare(a.date),
+  )[0];
 
   useEffect(() => {
     const el = containerRef.current;
@@ -189,9 +192,7 @@ export default function HomePage() {
                 </div>
               </Link>
               <div className="flex flex-col gap-4">
-                {news.map((item) => (
-                  <NewsCard key={item.slug} item={item} />
-                ))}
+                {latestNews && <NewsCard item={latestNews} />}
               </div>
             </div>
           </div>

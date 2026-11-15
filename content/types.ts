@@ -28,12 +28,29 @@ export interface Course {
   };
 }
 
+export type NewsBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "heading"; text: string }
+  | {
+      type: "image";
+      src: string;
+      alt: string;
+      caption?: string;
+      width?: number;
+      height?: number;
+    }
+  | { type: "quote"; text: string };
+
 export interface NewsItem {
   slug: string;
   title: string;
   date: string;
   source: string;
-  body: string[];
+  category: string;
+  summary: string;
+  coverImage?: string;
+  externalUrl?: string;
+  blocks: NewsBlock[];
 }
 
 export interface Paper {
