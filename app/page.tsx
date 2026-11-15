@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type TouchEvent,
+} from "react";
 import { courses } from "@/content/courses";
 import { news } from "@/content/news";
 import { versions } from "@/content/versions";
@@ -28,15 +34,16 @@ const capabilities = [
   },
 ];
 
-const sectionCount = 7;
+const PANEL_COUNT = 6;
+const NAV_COOLDOWN_MS = 850;
 
 function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
-    <div className="mb-8">
+    <div className="mb-5 md:mb-8">
       <div className="text-[13px] font-medium tracking-wide text-ink-dim">
         {eyebrow}
       </div>
-      <h2 className="mt-1 text-3xl font-semibold tracking-tight text-ink md:text-4xl">
+      <h2 className="mt-1 text-2xl font-semibold tracking-tight text-ink md:text-4xl">
         {title}
       </h2>
     </div>
@@ -44,197 +51,337 @@ function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
 }
 
 export default function HomePage() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
+  const navigatingRef = useRef(false);
+  const touchStartY = useRef<number | null>(null);
+  const touchStartScroll = useRef(0);
+  const panelScrollRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const latestNews = [...news].sort((a, b) =>
     b.date.localeCompare(a.date),
   )[0];
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const idx = Math.round(el.scrollTop / el.clientHeight);
-      setActive(Math.max(0, Math.min(sectionCount - 1, idx)));
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
     };
-    onScroll();
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
   }, []);
 
-  const go = (index: number) => {
+  const go = useCallback((index: number, force = false) => {
+    const next = Math.max(0, Math.min(PANEL_COUNT - 1, index));
+    if (next === activeRef.current) return;
+    if (!force && navigatingRef.current) return;
+
+    navigatingRef.current = true;
+    activeRef.current = next;
+    setActive(next);
+
+    window.setTimeout(() => {
+      navigatingRef.current = false;
+    }, NAV_COOLDOWN_MS);
+  }, []);
+
+  const next = useCallback(() => go(activeRef.current + 1), [go]);
+  const prev = useCallback(() => go(activeRef.current - 1), [go]);
+
+  useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    el.scrollTo({ top: index * el.clientHeight, behavior: "smooth" });
+
+    const onWheel = (event: WheelEvent) => {
+      const target = event.target as HTMLElement;
+      const scrollable = target.closest<HTMLElement>("[data-panel-scroll]");
+
+      if (scrollable) {
+        const atTop = scrollable.scrollTop <= 0;
+        const atBottom =
+          scrollable.scrollTop + scrollable.clientHeight >=
+          scrollable.scrollHeight - 1;
+        if (
+          (event.deltaY > 0 && !atBottom) ||
+          (event.deltaY < 0 && !atTop)
+        ) {
+          return;
+        }
+      }
+
+      event.preventDefault();
+      if (Math.abs(event.deltaY) < 4) return;
+      if (event.deltaY > 0) next();
+      else prev();
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [next, prev]);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement;
+      const tag = target.tagName;
+      if (["INPUT", "TEXTAREA", "SELECT"].includes(tag)) return;
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+
+      const isInteractive = tag === "BUTTON" || tag === "A";
+      if (event.key === " " && isInteractive) return;
+
+      if (
+        event.key === "ArrowDown" ||
+        event.key === "PageDown" ||
+        (event.key === " " && !event.shiftKey)
+      ) {
+        event.preventDefault();
+        next();
+      } else if (
+        event.key === "ArrowUp" ||
+        event.key === "PageUp" ||
+        (event.key === " " && event.shiftKey)
+      ) {
+        event.preventDefault();
+        prev();
+      } else if (event.key === "Home") {
+        event.preventDefault();
+        go(0, true);
+      } else if (event.key === "End") {
+        event.preventDefault();
+        go(PANEL_COUNT - 1, true);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [go, next, prev]);
+
+  const onTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    touchStartY.current = event.touches[0].clientY;
+    touchStartScroll.current =
+      panelScrollRefs.current[activeRef.current]?.scrollTop ?? 0;
   };
 
-  return (
-    <div className="relative">
-      <div
-        ref={containerRef}
-        className="h-[calc(100dvh_-_3rem)] snap-y snap-mandatory overflow-y-auto overscroll-contain"
-      >
-        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
-          <div className="mx-auto w-full max-w-6xl px-5">
-            <h1 className="text-4xl font-semibold tracking-tight text-ink md:text-6xl">
-              玄知 CryptoLLM
-            </h1>
-            <p className="mt-6 max-w-2xl text-[17px] leading-8 text-ink-dim md:text-[19px]">
-              面向密码学领域的大语言模型。分析密码算法，验证协议安全，审计工程实现。
+  const onTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    if (touchStartY.current === null) return;
+
+    const currentScroll =
+      panelScrollRefs.current[activeRef.current]?.scrollTop ?? 0;
+    if (Math.abs(currentScroll - touchStartScroll.current) > 4) {
+      touchStartY.current = null;
+      return;
+    }
+
+    const delta = touchStartY.current - event.changedTouches[0].clientY;
+    touchStartY.current = null;
+    if (Math.abs(delta) < 40) return;
+    if (delta > 0) next();
+    else prev();
+  };
+
+  const panels = [
+    <div key="hero">
+      <h1 className="text-4xl font-semibold tracking-tight text-ink md:text-6xl">
+        玄知 CryptoLLM
+      </h1>
+      <p className="mt-6 max-w-2xl text-[17px] leading-8 text-ink-dim md:text-[19px]">
+        面向密码学领域的大语言模型。分析密码算法，验证协议安全，审计工程实现。
+      </p>
+      <div className="mt-8 flex flex-wrap items-center gap-4">
+        <LinkButton href="/products/v3">体验 V3</LinkButton>
+        <LinkButton href="/products/v4" variant="ghost">
+          申请 V4 邀请码
+        </LinkButton>
+      </div>
+      <p className="mt-6 text-[13px] text-ink-faint">
+        V3 公开访问 · V4 邀请码内测
+      </p>
+    </div>,
+
+    <div key="capabilities">
+      <SectionHead eyebrow="能力" title="能做什么" />
+      <div className="grid gap-4 md:grid-cols-3">
+        {capabilities.map((capability) => (
+          <div key={capability.title} className="rounded-3xl bg-surface p-6">
+            <h3 className="text-[17px] font-semibold text-ink">
+              {capability.title}
+            </h3>
+            <p className="mt-3 text-[14px] leading-6 text-ink-dim">
+              {capability.body}
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <LinkButton href="/products/v3">体验 V3</LinkButton>
-              <LinkButton href="/products/v4" variant="ghost">
-                申请 V4 邀请码
-              </LinkButton>
-            </div>
-            <p className="mt-6 text-[13px] text-ink-faint">
-              V3 公开访问 · V4 邀请码内测
-            </p>
           </div>
-        </section>
+        ))}
+      </div>
+    </div>,
 
-        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
-          <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="能力" title="能做什么" />
-            <div className="grid gap-5 md:grid-cols-3">
-              {capabilities.map((capability) => (
-                <div
-                  key={capability.title}
-                  className="rounded-3xl bg-surface p-7"
-                >
-                  <h3 className="text-[17px] font-semibold text-ink">
-                    {capability.title}
-                  </h3>
-                  <p className="mt-4 text-[14px] leading-6 text-ink-dim">
-                    {capability.body}
-                  </p>
-                </div>
-              ))}
+    <div key="models">
+      <SectionHead eyebrow="产品 · 模型" title="玄知模型" />
+      <div className="hidden gap-5 md:grid md:grid-cols-2">
+        {versions.map((version) => (
+          <VersionCard key={version.slug} version={version} />
+        ))}
+      </div>
+      <div className="grid grid-cols-2 gap-3 md:hidden">
+        {versions.map((version) => (
+          <Link
+            key={version.slug}
+            href={`/products/${version.slug}`}
+            className="flex flex-col rounded-2xl bg-surface p-4 transition-colors hover:bg-surface-2"
+          >
+            <div className="text-[15px] font-semibold text-ink">
+              {version.name}
             </div>
-          </div>
-        </section>
-
-        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
-          <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="产品 · 模型" title="玄知模型" />
-            <div className="grid gap-5 md:grid-cols-2">
-              {versions.map((version) => (
-                <VersionCard key={version.slug} version={version} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
-          <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="产品 · 平台" title="Crypto bench 与 API" />
-            <div className="grid gap-5 md:grid-cols-2">
-              <div className="flex flex-col rounded-3xl bg-surface p-7">
-                <h3 className="text-[17px] font-semibold text-ink">
-                  Crypto bench
-                </h3>
-                <p className="mt-4 flex-1 text-[14px] leading-6 text-ink-dim">
-                  密码学基准测试。系统就绪后，入口链接会挂到官网。
-                </p>
-                <div className="mt-6">
-                  <LinkButton href="/bench" variant="ghost">
-                    进入 Crypto bench
-                  </LinkButton>
-                </div>
+            {version.tagline !== "待补充" && (
+              <div className="mt-1 text-[12px] text-accent">
+                {version.tagline}
               </div>
-              <div className="flex flex-col rounded-3xl bg-surface p-7">
-                <h3 className="text-[17px] font-semibold text-ink">API</h3>
-                <p className="mt-4 flex-1 text-[14px] leading-6 text-ink-dim">
-                  开放 API 访问，支持购买计费、用量管理与接入文档。
-                </p>
-                <div className="mt-6">
-                  <LinkButton href="/api" variant="ghost">
-                    查看 API
-                  </LinkButton>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+            )}
+            <div className="mt-4 text-[12px] text-accent">查看详情 →</div>
+          </Link>
+        ))}
+      </div>
+    </div>,
 
-        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
-          <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="产品 · 课程" title="学习资源" />
-            <div className="grid gap-5 md:grid-cols-3">
-              {courses.map((course) => (
-                <CourseCard key={course.slug} course={course} />
-              ))}
-            </div>
+    <div key="platform">
+      <SectionHead eyebrow="产品 · 平台" title="Crypto bench 与 API" />
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="flex flex-col rounded-3xl bg-surface p-6">
+          <h3 className="text-[17px] font-semibold text-ink">Crypto bench</h3>
+          <p className="mt-3 flex-1 text-[14px] leading-6 text-ink-dim">
+            密码学基准测试。系统就绪后，入口链接会挂到官网。
+          </p>
+          <div className="mt-5">
+            <LinkButton href="/bench" variant="ghost">
+              进入 Crypto bench
+            </LinkButton>
           </div>
-        </section>
+        </div>
+        <div className="flex flex-col rounded-3xl bg-surface p-6">
+          <h3 className="text-[17px] font-semibold text-ink">API</h3>
+          <p className="mt-3 flex-1 text-[14px] leading-6 text-ink-dim">
+            开放 API 访问，支持购买计费、用量管理与接入文档。
+          </p>
+          <div className="mt-5">
+            <LinkButton href="/api" variant="ghost">
+              查看 API
+            </LinkButton>
+          </div>
+        </div>
+      </div>
+    </div>,
 
-        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
-          <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="动态" title="研究与新闻" />
-            <div className="grid gap-5 md:grid-cols-2">
-              <Link
-                href="/research"
-                className="flex flex-col rounded-3xl bg-surface p-7 transition-colors hover:bg-surface-2"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-[12px] text-ink-faint">论文 · PDF</span>
-                  <PlaceholderBadge />
-                </div>
-                <h3 className="mt-2 text-[17px] font-semibold text-ink">
-                  研究成果
-                </h3>
-                <p className="mt-4 flex-1 text-[14px] leading-6 text-ink-dim">
-                  论文研究成果以 PDF 形式集中展示，可查看与下载。
-                </p>
-                <div className="mt-auto pt-6 text-[13px] text-accent">
-                  查看研究成果 →
-                </div>
-              </Link>
-              <div className="flex flex-col gap-4">
-                {latestNews && <NewsCard item={latestNews} />}
-              </div>
-            </div>
-          </div>
-        </section>
+    <div key="courses">
+      <SectionHead eyebrow="产品 · 课程" title="学习资源" />
+      <div className="grid gap-4 md:grid-cols-3">
+        {courses.map((course) => (
+          <CourseCard key={course.slug} course={course} />
+        ))}
+      </div>
+    </div>,
 
-        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
-          <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="社群" title="加入交流群" />
-            <div className="flex flex-col items-start gap-8 md:flex-row md:items-center">
-              <div className="flex h-40 w-40 flex-col items-center justify-center gap-1 rounded-3xl bg-surface text-center">
-                <span className="text-sm text-ink-dim">群二维码</span>
-                <span className="text-xs text-ink-faint">待补充</span>
-              </div>
-              <div className="max-w-md">
-                <p className="text-[14px] leading-6 text-ink-dim">
-                  扫码加入客户交流群。二维码与说明待补充。
-                </p>
-                <div className="mt-5">
-                  <LinkButton href="/community">查看加群方式</LinkButton>
-                </div>
-              </div>
-            </div>
-            <div className="mt-16 border-t border-line-soft pt-6 text-[12px] text-ink-faint">
-              © 2026 玄知 CryptoLLM · Powered by XDU NSS · ICP 备案号待补充
-            </div>
+    <div key="research-news">
+      <SectionHead eyebrow="动态" title="研究与新闻" />
+      <div className="grid gap-4 md:grid-cols-2">
+        <Link
+          href="/research"
+          className="flex flex-col rounded-3xl bg-surface p-6 transition-colors hover:bg-surface-2"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[12px] text-ink-faint">论文 · PDF</span>
+            <PlaceholderBadge />
           </div>
-        </section>
+          <h3 className="mt-2 text-[17px] font-semibold text-ink">研究成果</h3>
+          <p className="mt-3 flex-1 text-[14px] leading-6 text-ink-dim">
+            论文研究成果以 PDF 形式集中展示，可查看与下载。
+          </p>
+          <div className="mt-auto pt-5 text-[13px] text-accent">
+            查看研究成果 →
+          </div>
+        </Link>
+        {latestNews && <NewsCard item={latestNews} />}
       </div>
 
-      <div className="fixed right-4 top-1/2 z-50 flex -translate-y-1/2 flex-col items-center gap-2.5">
-        {Array.from({ length: sectionCount }).map((_, index) => (
+      <div className="mt-4 flex flex-col gap-4 rounded-3xl bg-surface p-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-2xl border border-dashed border-line text-center">
+            <span className="text-[10px] text-ink-dim">二维码</span>
+            <span className="text-[9px] text-ink-faint">待补充</span>
+          </div>
+          <div>
+            <div className="text-[15px] font-semibold text-ink">
+              客户交流群
+            </div>
+            <p className="mt-1 text-[13px] text-ink-dim">
+              扫码加入，群二维码待补充。
+            </p>
+          </div>
+        </div>
+        <LinkButton href="/community" variant="ghost">
+          查看加群方式
+        </LinkButton>
+      </div>
+
+      <div className="mt-4 text-[12px] text-ink-faint">
+        © 2026 玄知 CryptoLLM · Powered by XDU NSS · ICP 备案号待补充
+      </div>
+    </div>,
+  ];
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative h-[calc(100dvh_-_3rem)] overflow-hidden overscroll-none"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      {panels.map((panel, index) => {
+        const isActive = active === index;
+        return (
+          <div
+            key={index}
+            aria-hidden={!isActive}
+            inert={!isActive}
+            className="absolute inset-0 will-change-transform"
+            style={{
+              transform: `translate3d(0, ${(index - active) * 100}%, 0)`,
+              opacity: isActive ? 1 : 0,
+              transition:
+                "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease",
+            }}
+          >
+            <div
+              ref={(el) => {
+                panelScrollRefs.current[index] = el;
+              }}
+              data-panel-scroll
+              className="h-full w-full overflow-y-auto overscroll-contain"
+            >
+              <div className="mx-auto flex min-h-full w-full max-w-6xl flex-col justify-center pl-5 pr-12 py-6 md:py-10 md:pr-5">
+                {panel}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      <div className="fixed right-4 top-1/2 z-50 flex -translate-y-1/2 flex-col items-center gap-2">
+        {Array.from({ length: PANEL_COUNT }).map((_, index) => (
           <button
             key={index}
             type="button"
             aria-label={`第 ${index + 1} 屏`}
-            onClick={() => go(index)}
-            className={`rounded-full transition-all ${
-              active === index
-                ? "h-2.5 w-2.5 bg-accent"
-                : "h-2 w-2 bg-line hover:bg-ink-faint"
-            }`}
-          />
+            aria-current={active === index ? "true" : undefined}
+            onClick={() => go(index, true)}
+            className="flex h-6 w-6 items-center justify-center rounded-full"
+          >
+            <span
+              className={`rounded-full transition-all ${
+                active === index
+                  ? "h-3 w-3 bg-accent"
+                  : "h-3 w-3 bg-ink/20 hover:bg-ink/40"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>
