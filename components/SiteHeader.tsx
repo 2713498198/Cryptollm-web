@@ -218,7 +218,7 @@ export default function SiteHeader() {
             加入社群
           </Link>
           <Link
-            href="/api"
+            href="/login"
             className="rounded-full px-3 py-1.5 text-[13px] text-ink-dim transition-colors hover:text-ink"
           >
             登录
@@ -306,7 +306,7 @@ export default function SiteHeader() {
               加入社群
             </Link>
             <Link
-              href="/api"
+              href="/login"
               onClick={() => setOpen(false)}
               className="rounded-lg px-3 py-2.5 text-sm text-ink-dim hover:bg-surface hover:text-ink"
             >
