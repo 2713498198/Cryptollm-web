@@ -176,6 +176,9 @@ export function NewsCard({ item }: { item: NewsItem }) {
       <p className="line-clamp-2 text-[14px] leading-6 text-ink-dim">
         {item.body[0]}
       </p>
+      <div className="mt-auto pt-6 text-[13px] text-accent">
+        阅读全文 →
+      </div>
     </Link>
   );
 }
