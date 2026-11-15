@@ -153,7 +153,7 @@ export default function SiteHeader() {
           </Link>
           <Link
             href="/community"
-            className="ml-2 rounded-full bg-accent px-4 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-accent-strong"
+            className="rounded-full px-3 py-1.5 text-[13px] text-ink-dim transition-colors hover:text-ink"
           >
             加入社群
           </Link>
@@ -245,7 +245,7 @@ export default function SiteHeader() {
             <Link
               href="/community"
               onClick={() => setOpen(false)}
-              className="mt-2 rounded-full bg-accent px-4 py-2.5 text-center text-sm font-medium text-white"
+              className="rounded-lg px-3 py-2.5 text-sm text-ink-dim hover:bg-surface hover:text-ink"
             >
               加入社群
             </Link>
