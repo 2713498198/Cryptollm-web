@@ -23,7 +23,7 @@ const productGroups = [
     ],
   },
   {
-    title: "了解",
+    title: "动态与研究",
     items: [
       { href: "/news", label: "新闻动态" },
       { href: "/research", label: "研究成果" },
