@@ -124,7 +124,7 @@ export default function HomePage() {
 
         <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="平台" title="Crypto bench 与 API" />
+            <SectionHead eyebrow="产品 · 平台" title="Crypto bench 与 API" />
             <div className="grid gap-5 md:grid-cols-2">
               <div className="flex flex-col rounded-3xl bg-surface p-7">
                 <h3 className="text-[17px] font-semibold text-ink">

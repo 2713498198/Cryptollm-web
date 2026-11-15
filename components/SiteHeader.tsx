@@ -5,10 +5,37 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const links = [
-  { href: "/bench", label: "Crypto bench" },
-  { href: "/api", label: "API" },
   { href: "/news", label: "新闻" },
   { href: "/research", label: "研究" },
+];
+
+const productGroups = [
+  {
+    title: "探索产品",
+    items: [
+      { href: "/products", label: "全部版本", large: true },
+      { href: "/products/v3", label: "玄知 V3", large: true },
+      { href: "/products/v4", label: "玄知 V4", large: true },
+      { href: "/products/v1", label: "玄知 V1", large: true },
+      { href: "/products/v2", label: "玄知 V2", large: true },
+    ],
+  },
+  {
+    title: "选购与接入",
+    items: [
+      { href: "/courses", label: "课程" },
+      { href: "/bench", label: "Crypto bench" },
+      { href: "/api", label: "API" },
+    ],
+  },
+  {
+    title: "了解",
+    items: [
+      { href: "/news", label: "新闻动态" },
+      { href: "/research", label: "研究成果" },
+      { href: "/community", label: "加入社群" },
+    ],
+  },
 ];
 
 export default function SiteHeader() {
@@ -16,7 +43,10 @@ export default function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   const productActive =
-    pathname.startsWith("/products") || pathname.startsWith("/courses");
+    pathname.startsWith("/products") ||
+    pathname.startsWith("/courses") ||
+    pathname.startsWith("/bench") ||
+    pathname.startsWith("/api");
 
   return (
     <header className="sticky top-0 z-50 border-b border-line-soft bg-white/80 backdrop-blur-xl">
@@ -61,27 +91,47 @@ export default function SiteHeader() {
                 <path d="M6 9l6 6 6-6" />
               </svg>
             </button>
-            <div className="invisible absolute left-0 top-full z-50 w-36 rounded-2xl border border-line-soft bg-white p-1 opacity-0 shadow-sm transition-opacity group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-              <Link
-                href="/products"
-                className="block rounded-xl px-3 py-2 text-[13px] text-ink-dim hover:bg-surface hover:text-ink"
-              >
-                版本
-              </Link>
-              <Link
-                href="/courses"
-                className="block rounded-xl px-3 py-2 text-[13px] text-ink-dim hover:bg-surface hover:text-ink"
-              >
-                课程
-              </Link>
+
+            <div className="invisible fixed left-0 right-0 top-12 z-50 opacity-0 transition-opacity group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+              <div className="border-b border-line-soft bg-white/95 shadow-sm backdrop-blur-xl">
+                <div className="mx-auto grid max-w-6xl grid-cols-[1.3fr_1fr_1fr] gap-10 px-5 pb-8 pt-10">
+                  {productGroups.map((group) => (
+                    <div key={group.title}>
+                      <div className="text-[12px] text-ink-faint">
+                        {group.title}
+                      </div>
+                      <div className="mt-4 flex flex-col">
+                        {group.items.map((item) => (
+                          <Link
+                            key={item.href + item.label}
+                            href={item.href}
+                            className={
+                              "large" in item && item.large
+                                ? "py-1 text-[22px] font-semibold tracking-tight text-ink hover:text-ink-dim"
+                                : "py-1.5 text-[13px] text-ink-dim hover:text-ink"
+                            }
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mx-auto max-w-6xl px-5 pb-5">
+                  <Link
+                    href="/products"
+                    className="text-[12px] text-ink-faint hover:text-ink"
+                  >
+                    查看全部产品
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
 
           {links.map((link) => {
-            const active =
-              link.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(link.href);
+            const active = pathname.startsWith(link.href);
             return (
               <Link
                 key={link.href}
@@ -152,7 +202,7 @@ export default function SiteHeader() {
               onClick={() => setOpen(false)}
               className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
             >
-              版本
+              全部版本
             </Link>
             <Link
               href="/courses"
@@ -160,6 +210,20 @@ export default function SiteHeader() {
               className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
             >
               课程
+            </Link>
+            <Link
+              href="/bench"
+              onClick={() => setOpen(false)}
+              className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
+            >
+              Crypto bench
+            </Link>
+            <Link
+              href="/api"
+              onClick={() => setOpen(false)}
+              className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
+            >
+              API
             </Link>
             {links.map((link) => (
               <Link
