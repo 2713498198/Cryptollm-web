@@ -8,7 +8,6 @@ const base = "https://cryptollm.net";
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
-    "/products",
     "/bench",
     "/api",
     "/courses",

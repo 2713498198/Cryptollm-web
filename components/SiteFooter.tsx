@@ -31,15 +31,6 @@ export default function SiteFooter() {
         <div>
           <div className="text-sm font-medium text-ink">产品</div>
           <ul className="mt-4 space-y-2.5">
-            <li className="group relative">
-              <Link
-                href="/products"
-                className="text-sm text-ink-dim transition-colors hover:text-ink group-hover:text-ink"
-              >
-                模型
-              </Link>
-
-            </li>
             <li>
               <Link
                 href="/courses"
