@@ -13,11 +13,10 @@ const productGroups = [
   {
     title: "探索产品",
     items: [
-      { href: "/products", label: "全部版本" },
-      { href: "/products/v3", label: "玄知 V3" },
-      { href: "/products/v4", label: "玄知 V4" },
       { href: "/products/v1", label: "玄知 V1" },
       { href: "/products/v2", label: "玄知 V2" },
+      { href: "/products/v3", label: "玄知 V3" },
+      { href: "/products/v4", label: "玄知 V4" },
     ],
   },
   {
@@ -161,15 +160,6 @@ export default function SiteHeader() {
                     </div>
                   ))}
                 </div>
-                <div className="mx-auto max-w-6xl px-5 pb-5">
-                  <Link
-                    href="/products"
-                    onClick={() => setProductsOpen(false)}
-                    className="rounded-lg px-3 py-2 text-[14px] font-medium text-ink-dim transition-colors hover:text-ink"
-                  >
-                    查看全部产品
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
@@ -241,13 +231,6 @@ export default function SiteHeader() {
             <div className="rounded-lg px-3 py-2.5 text-sm font-medium text-ink">
               产品
             </div>
-            <Link
-              href="/products"
-              onClick={() => setOpen(false)}
-              className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
-            >
-              全部版本
-            </Link>
             <Link
               href="/courses"
               onClick={() => setOpen(false)}
