@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cryptollm.login.infrastructure.mapper.UserAccountMapper">
+    <resultMap id="BaseResultMap" type="com.cryptollm.login.domain.entity.UserAccountDO">
+        <id column="id" property="id"/>
+        <result column="account_no" property="accountNo"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="phone_country_code" property="phoneCountryCode"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="password_hash" property="passwordHash"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="account_type" property="accountType"/>
+        <result column="status" property="status"/>
+        <result column="real_name_status" property="realNameStatus"/>
+        <result column="two_factor_enabled" property="twoFactorEnabled"/>
+        <result column="balance" property="balance"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="last_login_ip" property="lastLoginIp"/>
+        <result column="password_updated_at" property="passwordUpdatedAt"/>
+        <result column="deleted" property="deleted"/>
+        <result column="lock_version" property="lockVersion"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
+
+    <!-- TODO: 后续补充按手机号、账号 ID、用户名和邮箱查询的 SQL。 -->
+</mapper>
