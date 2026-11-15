@@ -34,7 +34,7 @@ const capabilities = [
   },
 ];
 
-const PANEL_COUNT = 6;
+const PANEL_COUNT = 7;
 const NAV_COOLDOWN_MS = 850;
 
 function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
@@ -301,27 +301,26 @@ export default function HomePage() {
         {latestNews && <NewsCard item={latestNews} />}
       </div>
 
-      <div className="mt-4 flex flex-col gap-4 rounded-3xl bg-surface p-4 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-2xl border border-dashed border-line text-center">
-            <span className="text-[10px] text-ink-dim">二维码</span>
-            <span className="text-[9px] text-ink-faint">待补充</span>
-          </div>
-          <div>
-            <div className="text-[15px] font-semibold text-ink">
-              客户交流群
-            </div>
-            <p className="mt-1 text-[13px] text-ink-dim">
-              扫码加入，群二维码待补充。
-            </p>
+    </div>,
+
+    <div key="community">
+      <SectionHead eyebrow="社群" title="加入客户交流群" />
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-10">
+        <div className="flex h-40 w-40 shrink-0 flex-col items-center justify-center rounded-3xl border border-dashed border-line bg-surface p-4 text-center">
+          <span className="text-sm text-ink-dim">群二维码</span>
+          <span className="mt-1 text-xs text-ink-faint">待补充</span>
+        </div>
+        <div className="max-w-md">
+          <h3 className="text-[17px] font-semibold text-ink">客户交流群</h3>
+          <p className="mt-3 text-[14px] leading-6 text-ink-dim">
+            扫码加入玄知客户交流群，获取产品动态、活动通知与技术支持。群二维码与加群说明待补充。
+          </p>
+          <div className="mt-5">
+            <LinkButton href="/community">查看加群方式</LinkButton>
           </div>
         </div>
-        <LinkButton href="/community" variant="ghost">
-          查看加群方式
-        </LinkButton>
       </div>
-
-      <div className="mt-4 text-[12px] text-ink-faint">
+      <div className="mt-10 text-[12px] text-ink-faint">
         © 2026 玄知 CryptoLLM · Powered by XDU NSS · ICP 备案号待补充
       </div>
     </div>,
