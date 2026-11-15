@@ -81,23 +81,11 @@ function NavMenu({
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
         onFocus={openMenu}
-        className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-[13px] transition-colors ${
+        className={`rounded-full px-3 py-1.5 text-[13px] transition-colors ${
           active ? "text-ink" : "text-ink-dim hover:text-ink"
         }`}
       >
         {label}
-        <svg
-          width="10"
-          height="10"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M6 9l6 6 6-6" />
-        </svg>
       </button>
 
       <div
