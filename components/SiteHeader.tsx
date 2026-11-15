@@ -9,12 +9,12 @@ type MenuGroup = { title: string; items: MenuItem[] };
 
 const productGroups: MenuGroup[] = [
   {
-    title: "模型版本",
+    title: "模型",
     items: [
-      { href: "/products/v1", label: "玄知 V1" },
-      { href: "/products/v2", label: "玄知 V2" },
-      { href: "/products/v3", label: "玄知 V3" },
       { href: "/products/v4", label: "玄知 V4" },
+      { href: "/products/v3", label: "玄知 V3" },
+      { href: "/products/v2", label: "玄知 V2" },
+      { href: "/products/v1", label: "玄知 V1" },
     ],
   },
   {
@@ -243,7 +243,7 @@ export default function SiteHeader() {
             <div className="rounded-lg px-3 py-2.5 text-sm font-medium text-ink">
               产品
             </div>
-            <div className="px-6 pt-1 text-xs text-ink-faint">模型版本</div>
+            <div className="px-6 pt-1 text-xs text-ink-faint">模型</div>
             {productGroups[0].items.map((item) => (
               <Link
                 key={item.href}
