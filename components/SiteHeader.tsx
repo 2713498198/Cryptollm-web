@@ -4,11 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const links = [
-  { href: "/news", label: "新闻" },
-  { href: "/research", label: "研究" },
-];
-
 const productGroups = [
   {
     title: "探索产品",
@@ -163,21 +158,6 @@ export default function SiteHeader() {
             </div>
           </div>
 
-          {links.map((link) => {
-            const active = pathname.startsWith(link.href);
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`rounded-full px-3 py-1.5 text-[13px] transition-colors ${
-                  active ? "text-ink" : "text-ink-dim hover:text-ink"
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-
           <Link
             href="/community"
             className="rounded-full px-3 py-1.5 text-[13px] text-ink-dim transition-colors hover:text-ink"
@@ -251,16 +231,6 @@ export default function SiteHeader() {
             >
               API
             </Link>
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm text-ink-dim hover:bg-surface hover:text-ink"
-              >
-                {link.label}
-              </Link>
-            ))}
             <Link
               href="/community"
               onClick={() => setOpen(false)}
