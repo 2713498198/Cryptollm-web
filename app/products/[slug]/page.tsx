@@ -37,29 +37,29 @@ export default async function VersionPage({ params }: Props) {
       </Link>
       <div className="mt-8 max-w-3xl">
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] text-ink-faint">版本</span>
+          <span className="text-sm font-medium text-ink-dim">版本</span>
           {version.features.includes("待补充") && <PlaceholderBadge />}
         </div>
-        <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-ink md:text-[52px]">
+        <h1 className="mt-3 text-3xl font-semibold tracking-tight text-ink md:text-5xl">
           {version.name}
         </h1>
-        <p className="mt-3 font-mono text-[10px] text-accent">{version.tagline}</p>
+        <p className="mt-3 text-lg text-accent">{version.tagline}</p>
         <p className="mt-6 text-[15px] leading-8 text-ink-dim">
           {version.description}
         </p>
       </div>
 
-      <div className="mt-10 grid gap-5 border-t border-line pt-5 md:grid-cols-3">
+      <div className="mt-10 grid gap-5 rounded-2xl border border-line bg-surface p-6 md:grid-cols-3">
         {version.features.map((feature) => (
           <div key={feature} className="flex items-start gap-3">
-            <span className="mt-2.5 h-px w-3 shrink-0 bg-accent" />
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
             <span className="text-sm text-ink-dim">{feature}</span>
           </div>
         ))}
       </div>
 
       <div className="mt-12">
-        <h2 className="font-display text-[26px] font-semibold text-ink">宣传视频</h2>
+        <h2 className="text-xl font-semibold text-ink">宣传视频</h2>
         <p className="mt-2 text-sm text-ink-dim">
           3 个宣传视频，成品到位后替换。
         </p>
@@ -70,8 +70,8 @@ export default async function VersionPage({ params }: Props) {
         </div>
       </div>
 
-      <div className="mt-12 border-t border-line pt-5">
-        <h2 className="font-display text-[26px] font-semibold text-ink">使用入口</h2>
+      <div className="mt-12 rounded-2xl border border-line bg-surface p-6">
+        <h2 className="text-xl font-semibold text-ink">使用入口</h2>
         <p className="mt-2 text-sm text-ink-dim">{version.access.note}</p>
         <div className="mt-5">
           {version.access.type === "none" ? (

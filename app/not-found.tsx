@@ -3,8 +3,8 @@ import { LinkButton } from "@/components/ui";
 export default function NotFound() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col items-start px-5 py-28">
-      <div className="font-mono text-[11px] text-ink-faint">404</div>
-      <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-ink md:text-[52px]">
+      <div className="text-sm font-medium text-accent">404</div>
+      <h1 className="mt-3 text-3xl font-semibold tracking-tight text-ink">
         页面不存在
       </h1>
       <p className="mt-3 text-base text-ink-dim">
