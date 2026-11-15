@@ -32,15 +32,6 @@ export default function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex">
-          <Link
-            href="/"
-            className={`rounded-full px-3 py-1.5 text-[13px] transition-colors ${
-              pathname === "/" ? "text-ink" : "text-ink-dim hover:text-ink"
-            }`}
-          >
-            首页
-          </Link>
-
           <div className="group relative">
             <button
               type="button"
@@ -138,13 +129,6 @@ export default function SiteHeader() {
       {open && (
         <nav className="border-t border-line-soft bg-white px-5 py-3 md:hidden">
           <div className="flex flex-col gap-1">
-            <Link
-              href="/"
-              onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm text-ink-dim hover:bg-surface hover:text-ink"
-            >
-              首页
-            </Link>
             <div className="rounded-lg px-3 py-2.5 text-sm font-medium text-ink">
               产品
             </div>
