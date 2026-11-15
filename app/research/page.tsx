@@ -19,7 +19,7 @@ export default function ResearchPage() {
         <span className="text-sm text-ink-dim">论文列表</span>
         <PlaceholderBadge />
       </div>
-      <div className="overflow-hidden rounded-2xl border border-line">
+      <div className="overflow-hidden rounded-[14px] border border-line">
         <div className="grid grid-cols-[1fr_auto] gap-4 border-b border-line bg-surface px-6 py-3 text-xs text-ink-dim md:grid-cols-[2fr_1.2fr_1fr_1fr_auto]">
           <span>标题</span>
           <span className="hidden md:block">作者</span>

@@ -56,7 +56,7 @@ export default async function CoursePage({ params }: Props) {
         {items.map((item) => (
           <div
             key={item.label}
-            className="flex flex-col rounded-2xl border border-line bg-surface p-6"
+            className="flex flex-col rounded-[14px] border border-line bg-surface p-6"
           >
             <h2 className="text-base font-semibold text-ink">{item.label}</h2>
             <p className="mt-2 flex-1 text-sm text-ink-dim">{item.desc}</p>
@@ -73,7 +73,7 @@ export default async function CoursePage({ params }: Props) {
         ))}
       </div>
 
-      <div className="mt-8 rounded-2xl border border-line bg-surface p-6">
+      <div className="mt-8 rounded-[14px] border border-line bg-surface p-6">
         <div className="flex items-center justify-between gap-4">
           <div>
             <h2 className="text-base font-semibold text-ink">配套教材</h2>
@@ -89,7 +89,7 @@ export default async function CoursePage({ params }: Props) {
         </div>
       </div>
 
-      <div className="mt-8 rounded-2xl border border-dashed border-line bg-surface/50 p-6">
+      <div className="mt-8 rounded-[14px] border border-line bg-surface-2/50 p-6">
         <h2 className="text-base font-semibold text-ink">课程宣传视频</h2>
         <p className="mt-2 text-sm text-ink-dim">
           3–5 分钟课程宣传视频，成品到位后在此展示。

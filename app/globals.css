@@ -3,14 +3,15 @@
 @theme {
   --color-bg: #f7f8fa;
   --color-surface: #ffffff;
-  --color-surface-2: #eef2f8;
-  --color-ink: #1d1d1f;
-  --color-ink-dim: #6e6e73;
-  --color-ink-faint: #86868b;
-  --color-accent: #0071e3;
-  --color-accent-strong: #0077ed;
-  --color-line: #d2d2d7;
-  --color-line-soft: #e8e8ed;
+  --color-surface-2: #eef3fa;
+  --color-ink: #141417;
+  --color-ink-dim: #5e626b;
+  --color-ink-faint: #8a8f99;
+  --color-accent: #0b57f0;
+  --color-accent-strong: #063ed0;
+  --color-violet: #7c4dff;
+  --color-line: #e3e7ee;
+  --color-line-soft: #eef1f6;
 }
 
 :root {
@@ -27,8 +28,8 @@ body {
   isolation: isolate;
   background-color: transparent;
   color: var(--color-ink);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
-    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -42,25 +43,24 @@ body::before {
   background-color: var(--color-bg);
   background-image:
     radial-gradient(
-      50% 45% at 10% 6%,
-      rgba(7, 70, 255, 0.11),
+      45% 40% at 6% 0%,
+      rgba(7, 70, 255, 0.08),
       rgba(7, 70, 255, 0) 70%
     ),
     radial-gradient(
-      45% 42% at 90% 2%,
-      rgba(151, 71, 255, 0.1),
-      rgba(151, 71, 255, 0) 72%
+      40% 38% at 94% 2%,
+      rgba(124, 77, 255, 0.07),
+      rgba(124, 77, 255, 0) 72%
     ),
     radial-gradient(
-      55% 55% at 85% 100%,
-      rgba(14, 165, 233, 0.08),
+      50% 45% at 80% 100%,
+      rgba(14, 165, 233, 0.05),
       rgba(14, 165, 233, 0) 70%
     ),
     linear-gradient(
       180deg,
-      rgba(156, 193, 231, 0.34) 0%,
-      rgba(247, 248, 250, 0.2) 55%,
-      rgba(247, 248, 250, 0.5) 100%
+      rgba(156, 193, 231, 0.42) 0%,
+      rgba(247, 248, 250, 0) 58%
     );
   background-repeat: no-repeat;
   background-size: cover;
@@ -72,7 +72,7 @@ pre {
 }
 
 ::selection {
-  background-color: rgba(0, 113, 227, 0.18);
+  background-color: rgba(11, 87, 240, 0.16);
 }
 
 :focus-visible {

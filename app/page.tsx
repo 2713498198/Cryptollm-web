@@ -40,7 +40,7 @@ const NAV_COOLDOWN_MS = 850;
 function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div className="mb-5 md:mb-8">
-      <div className="text-[13px] font-medium tracking-wide text-ink-dim">
+      <div className="text-[12px] font-medium tracking-wide text-ink-faint">
         {eyebrow}
       </div>
       <h2 className="mt-1 text-2xl font-semibold tracking-tight text-ink md:text-4xl">
@@ -62,6 +62,8 @@ export default function HomePage() {
   const latestNews = [...news].sort((a, b) =>
     b.date.localeCompare(a.date),
   )[0];
+  const featuredVersion = versions[0];
+  const otherVersions = versions.slice(1);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -181,10 +183,10 @@ export default function HomePage() {
 
   const panels = [
     <div key="hero">
-      <h1 className="text-4xl font-semibold tracking-tight text-ink md:text-6xl">
+      <h1 className="text-[44px] font-medium leading-[1.05] tracking-tight text-ink md:text-[64px]">
         玄知 CryptoLLM
       </h1>
-      <p className="mt-6 max-w-2xl text-[17px] leading-8 text-ink-dim md:text-[19px]">
+      <p className="mt-6 max-w-2xl text-[16px] leading-8 text-ink-dim md:text-[18px]">
         面向密码学领域的大语言模型。分析密码算法，验证协议安全，审计工程实现。
       </p>
       <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -202,7 +204,10 @@ export default function HomePage() {
       <SectionHead eyebrow="能力" title="能做什么" />
       <div className="grid gap-4 md:grid-cols-3">
         {capabilities.map((capability) => (
-          <div key={capability.title} className="rounded-3xl bg-surface p-6">
+          <div
+            key={capability.title}
+            className="rounded-[14px] border border-line bg-surface p-6 transition-colors hover:border-accent/30"
+          >
             <h3 className="text-[17px] font-semibold text-ink">
               {capability.title}
             </h3>
@@ -216,28 +221,47 @@ export default function HomePage() {
 
     <div key="models">
       <SectionHead eyebrow="产品 · 模型" title="玄知模型" />
-      <div className="hidden gap-5 md:grid md:grid-cols-2">
-        {versions.map((version) => (
-          <VersionCard key={version.slug} version={version} />
-        ))}
+      <div className="grid gap-6 rounded-[20px] border border-white/80 bg-[linear-gradient(135deg,#f8fbff_0%,#e8f2ff_55%,#f3efff_100%)] p-5 md:grid-cols-[1.25fr_0.75fr] md:p-8">
+        <div>
+          <div className="flex flex-wrap items-center gap-3 text-[12px] text-ink-dim">
+            <span className="rounded-md bg-white/70 px-2 py-0.5">
+              当前版本
+            </span>
+            <span>{featuredVersion.tagline}</span>
+          </div>
+          <h3 className="mt-4 text-2xl font-semibold tracking-tight text-ink md:text-4xl">
+            {featuredVersion.name}
+          </h3>
+          <p className="mt-3 max-w-xl text-[14px] leading-7 text-ink-dim md:text-[15px]">
+            {featuredVersion.description}
+          </p>
+          <div className="mt-5 hidden flex-wrap gap-2 sm:flex">
+            {featuredVersion.features.map((feature) => (
+              <span
+                key={feature}
+                className="rounded-md border border-white/80 bg-white/60 px-2.5 py-1 text-[12px] text-ink-dim"
+              >
+                {feature}
+              </span>
+            ))}
+          </div>
+          <div className="mt-5">
+            <LinkButton href={`/products/${featuredVersion.slug}`}>
+              查看 V4
+            </LinkButton>
+          </div>
+        </div>
+        <div className="hidden items-center justify-center md:flex">
+          <div className="flex aspect-square w-full max-w-[220px] items-center justify-center rounded-[18px] border border-white/80 bg-white/45 backdrop-blur">
+            <span className="text-[88px] font-semibold leading-none tracking-tight text-accent/20">
+              V4
+            </span>
+          </div>
+        </div>
       </div>
-      <div className="grid grid-cols-2 gap-3 md:hidden">
-        {versions.map((version) => (
-          <Link
-            key={version.slug}
-            href={`/products/${version.slug}`}
-            className="flex flex-col rounded-2xl bg-surface p-4 transition-colors hover:bg-surface-2"
-          >
-            <div className="text-[15px] font-semibold text-ink">
-              {version.name}
-            </div>
-            {version.tagline !== "待补充" && (
-              <div className="mt-1 text-[12px] text-accent">
-                {version.tagline}
-              </div>
-            )}
-            <div className="mt-4 text-[12px] text-accent">查看详情 →</div>
-          </Link>
+      <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+        {otherVersions.map((version) => (
+          <VersionCard key={version.slug} version={version} />
         ))}
       </div>
     </div>,
@@ -245,7 +269,7 @@ export default function HomePage() {
     <div key="platform">
       <SectionHead eyebrow="产品 · 平台" title="Crypto bench 与 API" />
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="flex flex-col rounded-3xl bg-surface p-6">
+        <div className="flex flex-col rounded-[14px] border border-line bg-surface p-6">
           <h3 className="text-[17px] font-semibold text-ink">Crypto bench</h3>
           <p className="mt-3 flex-1 text-[14px] leading-6 text-ink-dim">
             密码学基准测试。系统就绪后，入口链接会挂到官网。
@@ -256,7 +280,7 @@ export default function HomePage() {
             </LinkButton>
           </div>
         </div>
-        <div className="flex flex-col rounded-3xl bg-surface p-6">
+        <div className="flex flex-col rounded-[14px] border border-line bg-surface p-6">
           <h3 className="text-[17px] font-semibold text-ink">API</h3>
           <p className="mt-3 flex-1 text-[14px] leading-6 text-ink-dim">
             开放 API 访问，支持购买计费、用量管理与接入文档。
@@ -284,7 +308,7 @@ export default function HomePage() {
       <div className="grid gap-4 md:grid-cols-2">
         <Link
           href="/research"
-          className="flex flex-col rounded-3xl bg-surface p-6 transition-colors hover:bg-surface-2"
+          className="flex flex-col rounded-[14px] border border-line bg-surface p-6 transition-colors hover:border-accent/30"
         >
           <div className="flex items-center justify-between">
             <span className="text-[12px] text-ink-faint">论文 · PDF</span>
@@ -295,7 +319,7 @@ export default function HomePage() {
             论文研究成果以 PDF 形式集中展示，可查看与下载。
           </p>
           <div className="mt-auto pt-5 text-[13px] text-accent">
-            查看研究成果 →
+            查看研究成果
           </div>
         </Link>
         {latestNews && <NewsCard item={latestNews} />}
@@ -306,7 +330,7 @@ export default function HomePage() {
     <div key="community">
       <SectionHead eyebrow="社群" title="加入客户交流群" />
       <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-10">
-        <div className="flex h-40 w-40 shrink-0 flex-col items-center justify-center rounded-3xl border border-dashed border-line bg-surface p-4 text-center">
+        <div className="flex h-40 w-40 shrink-0 flex-col items-center justify-center rounded-[18px] border border-line bg-surface p-4 text-center">
           <span className="text-sm text-ink-dim">群二维码</span>
           <span className="mt-1 text-xs text-ink-faint">待补充</span>
         </div>
@@ -329,7 +353,7 @@ export default function HomePage() {
   return (
     <div
       ref={containerRef}
-      className="relative h-[calc(100dvh_-_3rem)] overflow-hidden overscroll-none"
+      className="relative h-[calc(100dvh_-_3.5rem)] overflow-hidden overscroll-none"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
@@ -355,7 +379,7 @@ export default function HomePage() {
               data-panel-scroll
               className="h-full w-full overflow-y-auto overscroll-contain"
             >
-              <div className="mx-auto flex min-h-full w-full max-w-6xl flex-col justify-center pl-5 pr-12 py-6 md:py-10 md:pr-5">
+              <div className="mx-auto flex min-h-full w-full max-w-6xl flex-col justify-center pl-5 pr-12 py-5 md:py-10 md:pr-5">
                 {panel}
               </div>
             </div>
@@ -376,8 +400,8 @@ export default function HomePage() {
             <span
               className={`rounded-full transition-all ${
                 active === index
-                  ? "h-3 w-3 bg-accent"
-                  : "h-3 w-3 bg-ink/20 hover:bg-ink/40"
+                  ? "h-1.5 w-4 bg-accent"
+                  : "h-1.5 w-1.5 bg-ink/20 hover:bg-ink/40"
               }`}
             />
           </button>

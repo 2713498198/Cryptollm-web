@@ -43,11 +43,10 @@ export default async function NewsDetailPage({ params }: Props) {
       </Link>
 
       <div className="mt-6 flex flex-wrap items-center gap-2 text-sm text-ink-faint">
-        <span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[12px] text-ink-dim">
+        <span className="rounded-md bg-surface-2 px-2.5 py-0.5 text-[12px] text-ink-dim">
           {item.category}
         </span>
         <span>{item.date}</span>
-        <span className="h-1 w-1 rounded-full bg-ink-faint" />
         <span>{item.source}</span>
       </div>
 
@@ -57,7 +56,7 @@ export default async function NewsDetailPage({ params }: Props) {
       <p className="mt-5 text-[16px] leading-8 text-ink-dim">{item.summary}</p>
 
       {item.coverImage && (
-        <div className="relative mt-8 aspect-[1280/544] overflow-hidden rounded-2xl bg-surface-2">
+        <div className="relative mt-8 aspect-[1280/544] overflow-hidden rounded-[14px] bg-surface-2">
           <Image
             src={item.coverImage}
             alt={item.title}
@@ -100,7 +99,7 @@ export default async function NewsDetailPage({ params }: Props) {
                   width={block.width ?? 1080}
                   height={block.height ?? 720}
                   sizes="(max-width: 768px) 100vw, 768px"
-                  className="h-auto w-full rounded-2xl"
+                  className="h-auto w-full rounded-[14px]"
                 />
                 {block.caption && (
                   <figcaption className="mt-3 text-center text-[12px] leading-5 text-ink-faint">
@@ -129,7 +128,7 @@ export default async function NewsDetailPage({ params }: Props) {
             rel="noreferrer"
             className="text-[13px] text-accent hover:underline"
           >
-            查看公众号原文 →
+            查看公众号原文
           </a>
         </div>
       )}

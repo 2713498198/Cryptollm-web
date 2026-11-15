@@ -16,7 +16,7 @@ const columns = [
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-line-soft bg-surface/60">
+    <footer className="border-t border-line bg-white/60 backdrop-blur-xl">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="text-lg font-semibold text-ink">
