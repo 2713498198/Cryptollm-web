@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 玄知 CryptoLLM 官网
 
-## Getting Started
+玄知大模型（CryptoLLM）官网前台。项目覆盖 A 同学"前台与内容"模块：官网整体设计、落地页、信息架构、4 个版本介绍页与宣传视频板块、课程板块、新闻板块、研究成果板块、客户交流群入口。
 
-First, run the development server:
+## 技术栈
+
+- Next.js（App Router）+ React + TypeScript
+- Tailwind CSS
+- 静态内容（内容集中在 `content/` 目录）
+
+## 本地运行
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 <http://localhost:3000> 查看。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+生产构建与启动：
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## 目录说明
 
-To learn more about Next.js, take a look at the following resources:
+- `app/`：页面路由（首页、产品、课程、新闻、研究成果、社区、bench、API）
+- `components/`：导航、页脚与共享 UI 组件
+- `content/`：版本、课程、新闻、论文等静态内容数据
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 待补充内容
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+未到位的素材均以"待补充"占位标注，包括：12 个宣传视频、课程视频/课件、实验系统入口、配套教材淘宝链接、论文 PDF、客户交流群二维码、V3/V4 接入链接、API 文档与登录入口。这些由对应团队提供后替换即可。
