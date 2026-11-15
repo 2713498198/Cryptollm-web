@@ -1,18 +1,13 @@
 import Link from "next/link";
 
+const modelLinks = [
+  { href: "/products/v4", label: "玄知 V4" },
+  { href: "/products/v3", label: "玄知 V3" },
+  { href: "/products/v2", label: "玄知 V2" },
+  { href: "/products/v1", label: "玄知 V1" },
+];
+
 const columns = [
-  {
-    title: "产品",
-    links: [
-      { href: "/products/v1", label: "玄知 V1" },
-      { href: "/products/v2", label: "玄知 V2" },
-      { href: "/products/v3", label: "玄知 V3" },
-      { href: "/products/v4", label: "玄知 V4" },
-      { href: "/courses", label: "课程" },
-      { href: "/bench", label: "Crypto bench" },
-      { href: "/api", label: "API" },
-    ],
-  },
   {
     title: "动态与研究",
     links: [
@@ -22,9 +17,7 @@ const columns = [
   },
   {
     title: "社群",
-    links: [
-      { href: "/community", label: "加入社群" },
-    ],
+    links: [{ href: "/community", label: "加入社群" }],
   },
 ];
 
@@ -40,6 +33,69 @@ export default function SiteFooter() {
             面向密码学领域的大语言模型。分析密码算法，验证协议安全，审计工程实现。
           </p>
           <p className="mt-4 text-xs text-ink-faint">Powered by XDU NSS</p>
+        </div>
+
+        <div>
+          <div className="text-sm font-medium text-ink">产品</div>
+          <ul className="mt-4 space-y-2.5">
+            <li className="group relative">
+              <Link
+                href="/products"
+                className="text-sm text-ink-dim transition-colors hover:text-ink group-hover:text-ink"
+              >
+                模型
+              </Link>
+
+              <div className="invisible absolute left-full top-0 z-20 ml-4 hidden w-40 rounded-2xl border border-line-soft bg-white p-2 opacity-0 shadow-lg transition-opacity group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100 md:block">
+                {modelLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block rounded-xl px-3 py-2 text-[14px] font-medium text-ink transition-colors hover:bg-surface"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+
+              <ul className="mt-2 space-y-2 pl-3 md:hidden">
+                {modelLinks.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-ink-dim transition-colors hover:text-ink"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </li>
+            <li>
+              <Link
+                href="/courses"
+                className="text-sm text-ink-dim transition-colors hover:text-ink"
+              >
+                课程
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/bench"
+                className="text-sm text-ink-dim transition-colors hover:text-ink"
+              >
+                Crypto bench
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/api"
+                className="text-sm text-ink-dim transition-colors hover:text-ink"
+              >
+                API
+              </Link>
+            </li>
+          </ul>
         </div>
 
         {columns.map((col) => (
