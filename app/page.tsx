@@ -68,9 +68,9 @@ export default function HomePage() {
     <div className="relative">
       <div
         ref={containerRef}
-        className="h-[calc(100vh_-_3rem)] snap-y snap-mandatory overflow-y-auto"
+        className="h-[calc(100dvh_-_3rem)] snap-y snap-mandatory overflow-y-auto overscroll-contain"
       >
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
             <h1 className="text-4xl font-semibold tracking-tight text-ink md:text-6xl">
               玄知 CryptoLLM
@@ -90,7 +90,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
             <SectionHead eyebrow="能力" title="能做什么" />
             <div className="grid gap-5 md:grid-cols-3">
@@ -111,9 +111,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="产品 · 版本" title="四个版本" />
+            <SectionHead eyebrow="产品 · 模型" title="玄知模型" />
             <div className="grid gap-5 md:grid-cols-2">
               {versions.map((version) => (
                 <VersionCard key={version.slug} version={version} />
@@ -122,7 +122,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
             <SectionHead eyebrow="产品 · 平台" title="Crypto bench 与 API" />
             <div className="grid gap-5 md:grid-cols-2">
@@ -154,7 +154,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
             <SectionHead eyebrow="产品 · 课程" title="学习资源" />
             <div className="grid gap-5 md:grid-cols-3">
@@ -165,7 +165,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
             <SectionHead eyebrow="动态" title="研究与新闻" />
             <div className="grid gap-5 md:grid-cols-2">
@@ -192,7 +192,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
             <SectionHead eyebrow="社群" title="加入交流群" />
             <div className="flex flex-col items-start gap-8 md:flex-row md:items-center">

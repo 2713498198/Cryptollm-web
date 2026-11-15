@@ -146,6 +146,7 @@ export default function SiteHeader() {
         <nav className="hidden items-center gap-0.5 md:flex">
           <Link
             href="/"
+            aria-current={pathname === "/" ? "page" : undefined}
             className={`rounded-full px-3 py-1.5 text-[13px] transition-colors ${
               pathname === "/" ? "text-ink" : "text-ink-dim hover:text-ink"
             }`}
@@ -160,6 +161,7 @@ export default function SiteHeader() {
           />
           <Link
             href="/news"
+            aria-current={pathname.startsWith("/news") ? "page" : undefined}
             className={`rounded-full px-3 py-1.5 text-[13px] transition-colors ${
               pathname.startsWith("/news")
                 ? "text-ink"
@@ -170,6 +172,7 @@ export default function SiteHeader() {
           </Link>
           <Link
             href="/research"
+            aria-current={pathname.startsWith("/research") ? "page" : undefined}
             className={`rounded-full px-3 py-1.5 text-[13px] transition-colors ${
               pathname.startsWith("/research")
                 ? "text-ink"
