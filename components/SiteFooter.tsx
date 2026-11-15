@@ -1,12 +1,5 @@
 import Link from "next/link";
 
-const modelLinks = [
-  { href: "/products/v4", label: "玄知 V4" },
-  { href: "/products/v3", label: "玄知 V3" },
-  { href: "/products/v2", label: "玄知 V2" },
-  { href: "/products/v1", label: "玄知 V1" },
-];
-
 const columns = [
   {
     title: "动态与研究",
@@ -46,18 +39,6 @@ export default function SiteFooter() {
                 模型
               </Link>
 
-              <ul className="mt-2 space-y-2 pl-3">
-                {modelLinks.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-ink-dim transition-colors hover:text-ink"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
             </li>
             <li>
               <Link
