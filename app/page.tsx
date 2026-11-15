@@ -182,28 +182,86 @@ export default function HomePage() {
   };
 
   const panels = [
-    <div key="hero">
-      <div className="text-[13px] font-medium text-ink-dim">
-        玄知 CryptoLLM
+    <div
+      key="hero"
+      className="grid gap-8 md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-10"
+    >
+      <div>
+        <div className="text-[13px] font-medium text-ink-dim">
+          玄知 CryptoLLM
+        </div>
+        <h1 className="mt-3 text-[44px] font-medium leading-[1.05] tracking-tight text-ink md:text-[64px]">
+          让密码更智能
+          <br />
+          让世界更安全
+        </h1>
+        <p className="mt-6 max-w-2xl text-[16px] leading-8 text-ink-dim md:text-[18px]">
+          面向密码学领域的大语言模型。玄知 V4 以 CryptoHarness 与
+          CryptoVerifier，让复杂密码任务可执行、可复核。
+        </p>
+        <div className="mt-8 flex flex-wrap items-center gap-4">
+          <LinkButton href="/products/v4">申请 V4 邀请码</LinkButton>
+          <LinkButton href="/products/v3" variant="ghost">
+            体验 V3
+          </LinkButton>
+        </div>
+        <p className="mt-6 text-[13px] text-ink-faint">
+          V4 邀请码内测 / V3 公开访问
+        </p>
       </div>
-      <h1 className="mt-3 text-[44px] font-medium leading-[1.05] tracking-tight text-ink md:text-[64px]">
-        让密码更智能
-        <br />
-        让世界更安全
-      </h1>
-      <p className="mt-6 max-w-2xl text-[16px] leading-8 text-ink-dim md:text-[18px]">
-        面向密码学领域的大语言模型。玄知 V4 以 CryptoHarness 与
-        CryptoVerifier，让复杂密码任务可执行、可复核。
-      </p>
-      <div className="mt-8 flex flex-wrap items-center gap-4">
-        <LinkButton href="/products/v4">申请 V4 邀请码</LinkButton>
-        <LinkButton href="/products/v3" variant="ghost">
-          体验 V3
-        </LinkButton>
+
+      <div
+        data-hero-card
+        className="relative w-full max-w-md overflow-hidden rounded-[24px] border border-white/80 bg-white/55 p-6 shadow-[0_28px_80px_-48px_rgba(11,87,240,0.55)] backdrop-blur-xl md:justify-self-end md:p-7"
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-8 -top-10 text-[120px] font-semibold leading-none tracking-tight text-accent/[0.06]"
+        >
+          V4
+        </div>
+        <div className="relative">
+          <div className="flex items-center justify-between gap-4">
+            <div className="text-[12px] font-medium text-ink-dim">
+              玄知 V4 / 可验证科研系统
+            </div>
+            <span className="rounded-full bg-accent/10 px-2.5 py-1 text-[11px] text-accent">
+              邀请码内测
+            </span>
+          </div>
+
+          <div className="mt-5 divide-y divide-line-soft">
+            {[
+              ["CryptoLLM", "理解与推理"],
+              ["CryptoHarness", "组织与执行"],
+              ["CryptoVerifier", "检验与判定"],
+            ].map(([name, role]) => (
+              <div
+                key={name}
+                className="flex items-baseline justify-between gap-4 py-3"
+              >
+                <span className="font-mono text-[12px] text-ink">{name}</span>
+                <span className="text-[12px] text-ink-dim">{role}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-5 rounded-[14px] border border-white/70 bg-white/55 p-3">
+            <div className="text-[10px] text-ink-faint">任务级成果包</div>
+            <div className="mt-1 text-[12px] text-ink-dim">
+              分析报告 / 运行代码 / 验证记录
+            </div>
+          </div>
+
+          <Link
+            href="/news/v4-release"
+            className="mt-5 inline-flex items-center gap-1 text-[12px] text-accent hover:underline"
+          >
+            查看 V4 发布
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
       </div>
-      <p className="mt-6 text-[13px] text-ink-faint">
-        V4 邀请码内测 / V3 公开访问
-      </p>
     </div>,
 
     <div key="capabilities">

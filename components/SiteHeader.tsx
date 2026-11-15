@@ -130,9 +130,14 @@ export default function SiteHeader() {
     pathname.startsWith("/courses") ||
     pathname.startsWith("/bench") ||
     pathname.startsWith("/api");
+  const isHome = pathname === "/";
 
   return (
-    <header className="sticky top-0 z-50 h-14 border-b border-line bg-white/75 backdrop-blur-xl">
+    <header
+      className={`sticky top-0 z-50 h-14 border-b border-line backdrop-blur-xl ${
+        isHome ? "bg-white/45" : "bg-white/75"
+      }`}
+    >
       <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-5">
         <Link
           href="/"
