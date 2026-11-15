@@ -5,6 +5,7 @@ const columns = [
     title: "产品",
     links: [
       { href: "/products", label: "全部版本" },
+      { href: "/courses", label: "课程中心" },
       { href: "/products/v3", label: "玄知 V3" },
       { href: "/products/v4", label: "玄知 V4" },
       { href: "/bench", label: "Crypto bench" },
@@ -14,7 +15,6 @@ const columns = [
   {
     title: "内容",
     links: [
-      { href: "/courses", label: "课程中心" },
       { href: "/news", label: "新闻动态" },
       { href: "/research", label: "研究成果" },
     ],

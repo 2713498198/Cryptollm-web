@@ -113,7 +113,7 @@ export default function HomePage() {
 
         <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="版本" title="四个版本" />
+            <SectionHead eyebrow="产品 · 版本" title="四个版本" />
             <div className="grid gap-5 md:grid-cols-2">
               {versions.map((version) => (
                 <VersionCard key={version.slug} version={version} />
@@ -156,7 +156,7 @@ export default function HomePage() {
 
         <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="课程" title="学习资源" />
+            <SectionHead eyebrow="产品 · 课程" title="学习资源" />
             <div className="grid gap-5 md:grid-cols-3">
               {courses.map((course) => (
                 <CourseCard key={course.slug} course={course} />
