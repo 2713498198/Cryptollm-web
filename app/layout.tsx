@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import PageFooter from "@/components/PageFooter";
 import SiteHeader from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main-content" className="flex-1">
           {children}
         </main>
+        <PageFooter />
       </body>
     </html>
   );

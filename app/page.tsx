@@ -214,6 +214,9 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
+            <div className="mt-16 border-t border-line-soft pt-6 text-[12px] text-ink-faint">
+              © 2026 玄知 CryptoLLM · Powered by XDU NSS · ICP 备案号待补充
+            </div>
           </div>
         </section>
       </div>
