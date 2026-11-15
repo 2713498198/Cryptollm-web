@@ -71,8 +71,16 @@ export default function HomePage() {
         ref={containerRef}
         className="h-[calc(100dvh_-_3rem)] snap-y snap-mandatory overflow-y-auto overscroll-contain"
       >
-        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
-          <div className="mx-auto w-full max-w-6xl px-5">
+        <section className="relative flex min-h-[calc(100dvh_-_3rem)] snap-start items-center overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(156,193,231,0.55) 0%, rgba(247,248,250,0) 100%)",
+            }}
+          />
+          <div className="relative mx-auto w-full max-w-6xl px-5">
             <h1 className="text-4xl font-semibold tracking-tight text-ink md:text-6xl">
               玄知 CryptoLLM
             </h1>

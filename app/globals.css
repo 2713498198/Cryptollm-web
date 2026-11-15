@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #ffffff;
-  --color-surface: #f5f5f7;
-  --color-surface-2: #e8e8ed;
+  --color-bg: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef2f8;
   --color-ink: #1d1d1f;
   --color-ink-dim: #6e6e73;
   --color-ink-faint: #86868b;
@@ -23,6 +23,20 @@ html {
 
 body {
   background-color: var(--color-bg);
+  background-image:
+    radial-gradient(
+      55% 50% at 8% -10%,
+      rgba(7, 70, 255, 0.1),
+      rgba(7, 70, 255, 0) 70%
+    ),
+    radial-gradient(
+      50% 45% at 92% -8%,
+      rgba(151, 71, 255, 0.09),
+      rgba(151, 71, 255, 0) 72%
+    );
+  background-repeat: no-repeat;
+  background-size: 100% 900px, 100% 900px;
+  background-position: top;
   color: var(--color-ink);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
