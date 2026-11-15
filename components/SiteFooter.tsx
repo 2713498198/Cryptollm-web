@@ -46,19 +46,7 @@ export default function SiteFooter() {
                 模型
               </Link>
 
-              <div className="invisible absolute left-full top-0 z-20 ml-4 hidden w-40 rounded-2xl border border-line-soft bg-white p-2 opacity-0 shadow-lg transition-opacity group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100 md:block">
-                {modelLinks.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="block rounded-xl px-3 py-2 text-[14px] font-medium text-ink transition-colors hover:bg-surface"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-
-              <ul className="mt-2 space-y-2 pl-3 md:hidden">
+              <ul className="mt-2 space-y-2 pl-3">
                 {modelLinks.map((item) => (
                   <li key={item.href}>
                     <Link
