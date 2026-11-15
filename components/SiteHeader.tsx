@@ -146,16 +146,16 @@ export default function SiteHeader() {
           })}
 
           <Link
-            href="/api"
-            className="ml-2 rounded-full px-3 py-1.5 text-[13px] text-ink-dim transition-colors hover:text-ink"
-          >
-            登录
-          </Link>
-          <Link
             href="/community"
             className="rounded-full px-3 py-1.5 text-[13px] text-ink-dim transition-colors hover:text-ink"
           >
             加入社群
+          </Link>
+          <Link
+            href="/api"
+            className="rounded-full px-3 py-1.5 text-[13px] text-ink-dim transition-colors hover:text-ink"
+          >
+            登录
           </Link>
         </nav>
 
@@ -236,18 +236,18 @@ export default function SiteHeader() {
               </Link>
             ))}
             <Link
-              href="/api"
-              onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm text-ink-dim hover:bg-surface hover:text-ink"
-            >
-              登录
-            </Link>
-            <Link
               href="/community"
               onClick={() => setOpen(false)}
               className="rounded-lg px-3 py-2.5 text-sm text-ink-dim hover:bg-surface hover:text-ink"
             >
               加入社群
+            </Link>
+            <Link
+              href="/api"
+              onClick={() => setOpen(false)}
+              className="rounded-lg px-3 py-2.5 text-sm text-ink-dim hover:bg-surface hover:text-ink"
+            >
+              登录
             </Link>
           </div>
         </nav>
