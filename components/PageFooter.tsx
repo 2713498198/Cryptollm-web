@@ -5,6 +5,12 @@ import SiteFooter from "@/components/SiteFooter";
 
 export default function PageFooter() {
   const pathname = usePathname();
-  if (pathname === "/") return null;
+  if (
+    pathname === "/" ||
+    pathname === "/login" ||
+    pathname.startsWith("/account")
+  ) {
+    return null;
+  }
   return <SiteFooter />;
 }
