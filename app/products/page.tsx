@@ -11,8 +11,8 @@ export default function ProductsPage() {
   return (
     <Section
       eyebrow="产品中心"
-      title="4 个版本，每个版本 3 个宣传视频"
-      subtitle="选择版本查看能力介绍、宣传视频与使用入口。V3 公开访问，V4 邀请码内测。"
+      title="四个版本"
+      subtitle="从公开访问到邀请制内测，每个版本包含 3 个宣传视频。"
       headingLevel="h1"
     >
       <div className="grid gap-5 md:grid-cols-2">
