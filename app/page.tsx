@@ -183,30 +183,38 @@ export default function HomePage() {
 
   const panels = [
     <div key="hero">
-      <h1 className="text-[44px] font-medium leading-[1.05] tracking-tight text-ink md:text-[64px]">
+      <div className="text-[13px] font-medium text-ink-dim">
         玄知 CryptoLLM
+      </div>
+      <h1 className="mt-3 text-[44px] font-medium leading-[1.05] tracking-tight text-ink md:text-[64px]">
+        让密码更智能
+        <br />
+        让世界更安全
       </h1>
       <p className="mt-6 max-w-2xl text-[16px] leading-8 text-ink-dim md:text-[18px]">
-        面向密码学领域的大语言模型。分析密码算法，验证协议安全，审计工程实现。
+        面向密码学领域的大语言模型。玄知 V4 以 CryptoHarness 与
+        CryptoVerifier，让复杂密码任务可执行、可复核。
       </p>
       <div className="mt-8 flex flex-wrap items-center gap-4">
-        <LinkButton href="/products/v3">体验 V3</LinkButton>
-        <LinkButton href="/products/v4" variant="ghost">
-          申请 V4 邀请码
+        <LinkButton href="/products/v4">申请 V4 邀请码</LinkButton>
+        <LinkButton href="/products/v3" variant="ghost">
+          体验 V3
         </LinkButton>
       </div>
       <p className="mt-6 text-[13px] text-ink-faint">
-        V3 公开访问 · V4 邀请码内测
+        V4 邀请码内测 / V3 公开访问
       </p>
     </div>,
 
     <div key="capabilities">
       <SectionHead eyebrow="能力" title="能做什么" />
-      <div className="grid gap-4 md:grid-cols-3">
-        {capabilities.map((capability) => (
+      <div className="grid gap-0 md:grid-cols-3">
+        {capabilities.map((capability, index) => (
           <div
             key={capability.title}
-            className="rounded-[14px] border border-line bg-surface p-6 transition-colors hover:border-accent/30"
+            className={`border-t border-line-soft py-5 md:border-t-0 md:py-0 md:px-6 ${
+              index > 0 ? "md:border-l" : "md:pl-0"
+            } ${index === capabilities.length - 1 ? "md:pr-0" : ""}`}
           >
             <h3 className="text-[17px] font-semibold text-ink">
               {capability.title}
