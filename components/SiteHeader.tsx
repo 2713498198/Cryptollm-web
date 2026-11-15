@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const links = [
   { href: "/news", label: "新闻" },
@@ -13,11 +13,11 @@ const productGroups = [
   {
     title: "探索产品",
     items: [
-      { href: "/products", label: "全部版本", large: true },
-      { href: "/products/v3", label: "玄知 V3", large: true },
-      { href: "/products/v4", label: "玄知 V4", large: true },
-      { href: "/products/v1", label: "玄知 V1", large: true },
-      { href: "/products/v2", label: "玄知 V2", large: true },
+      { href: "/products", label: "全部版本" },
+      { href: "/products/v3", label: "玄知 V3" },
+      { href: "/products/v4", label: "玄知 V4" },
+      { href: "/products/v1", label: "玄知 V1" },
+      { href: "/products/v2", label: "玄知 V2" },
     ],
   },
   {
@@ -41,12 +41,36 @@ const productGroups = [
 export default function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const productActive =
     pathname.startsWith("/products") ||
     pathname.startsWith("/courses") ||
     pathname.startsWith("/bench") ||
     pathname.startsWith("/api");
+
+  const openProducts = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setProductsOpen(true);
+  };
+
+  const closeProductsSoon = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => {
+      setProductsOpen(false);
+      closeTimer.current = null;
+    }, 150);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b border-line-soft bg-white/80 backdrop-blur-xl">
@@ -70,9 +94,25 @@ export default function SiteHeader() {
             首页
           </Link>
 
-          <div className="group relative">
+          <div
+            className="relative"
+            onMouseEnter={openProducts}
+            onMouseLeave={closeProductsSoon}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                setProductsOpen(false);
+              }
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") setProductsOpen(false);
+            }}
+          >
             <button
               type="button"
+              aria-haspopup="true"
+              aria-expanded={productsOpen}
+              onClick={() => setProductsOpen((value) => !value)}
+              onFocus={openProducts}
               className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-[13px] transition-colors ${
                 productActive ? "text-ink" : "text-ink-dim hover:text-ink"
               }`}
@@ -92,24 +132,27 @@ export default function SiteHeader() {
               </svg>
             </button>
 
-            <div className="invisible fixed left-0 right-0 top-12 z-50 opacity-0 transition-opacity group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+            <div
+              className={`fixed left-0 right-0 top-12 z-50 transition-opacity ${
+                productsOpen
+                  ? "visible opacity-100"
+                  : "invisible opacity-0"
+              }`}
+            >
               <div className="border-b border-line-soft bg-white/95 shadow-sm backdrop-blur-xl">
-                <div className="mx-auto grid max-w-6xl grid-cols-[1.3fr_1fr_1fr] gap-10 px-5 pb-8 pt-10">
+                <div className="mx-auto grid max-w-6xl grid-cols-3 gap-8 px-5 pb-8 pt-10">
                   {productGroups.map((group) => (
                     <div key={group.title}>
-                      <div className="text-[12px] text-ink-faint">
+                      <div className="px-3 text-[12px] text-ink-faint">
                         {group.title}
                       </div>
-                      <div className="mt-4 flex flex-col">
+                      <div className="mt-3 flex flex-col">
                         {group.items.map((item) => (
                           <Link
                             key={item.href + item.label}
                             href={item.href}
-                            className={
-                              "large" in item && item.large
-                                ? "py-1 text-[22px] font-semibold tracking-tight text-ink hover:text-ink-dim"
-                                : "py-1.5 text-[13px] text-ink-dim hover:text-ink"
-                            }
+                            onClick={() => setProductsOpen(false)}
+                            className="rounded-lg px-3 py-2 text-[14px] font-medium text-ink transition-colors hover:bg-surface"
                           >
                             {item.label}
                           </Link>
@@ -121,7 +164,8 @@ export default function SiteHeader() {
                 <div className="mx-auto max-w-6xl px-5 pb-5">
                   <Link
                     href="/products"
-                    className="text-[12px] text-ink-faint hover:text-ink"
+                    onClick={() => setProductsOpen(false)}
+                    className="rounded-lg px-3 py-2 text-[14px] font-medium text-ink-dim transition-colors hover:text-ink"
                   >
                     查看全部产品
                   </Link>
