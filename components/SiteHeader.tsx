@@ -4,9 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const productGroups = [
+type MenuItem = { href: string; label: string };
+type MenuGroup = { title: string; items: MenuItem[] };
+
+const productGroups: MenuGroup[] = [
   {
-    title: "探索产品",
+    title: "模型版本",
     items: [
       { href: "/products/v1", label: "玄知 V1" },
       { href: "/products/v2", label: "玄知 V2" },
@@ -15,13 +18,16 @@ const productGroups = [
     ],
   },
   {
-    title: "选购与接入",
+    title: "其他产品",
     items: [
       { href: "/courses", label: "课程" },
       { href: "/bench", label: "Crypto bench" },
       { href: "/api", label: "API" },
     ],
   },
+];
+
+const insightsGroups: MenuGroup[] = [
   {
     title: "动态与研究",
     items: [
@@ -31,30 +37,32 @@ const productGroups = [
   },
 ];
 
-export default function SiteHeader() {
-  const pathname = usePathname();
+function NavMenu({
+  label,
+  groups,
+  active,
+  variant,
+}: {
+  label: string;
+  groups: MenuGroup[];
+  active: boolean;
+  variant: "mega" | "compact";
+}) {
   const [open, setOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const productActive =
-    pathname.startsWith("/products") ||
-    pathname.startsWith("/courses") ||
-    pathname.startsWith("/bench") ||
-    pathname.startsWith("/api");
-
-  const openProducts = () => {
+  const openMenu = () => {
     if (closeTimer.current) {
       clearTimeout(closeTimer.current);
       closeTimer.current = null;
     }
-    setProductsOpen(true);
+    setOpen(true);
   };
 
-  const closeProductsSoon = () => {
+  const closeSoon = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => {
-      setProductsOpen(false);
+      setOpen(false);
       closeTimer.current = null;
     }, 150);
   };
@@ -64,6 +72,109 @@ export default function SiteHeader() {
       if (closeTimer.current) clearTimeout(closeTimer.current);
     };
   }, []);
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={openMenu}
+      onMouseLeave={closeSoon}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+          setOpen(false);
+        }
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") setOpen(false);
+      }}
+    >
+      <button
+        type="button"
+        aria-haspopup="true"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+        onFocus={openMenu}
+        className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-[13px] transition-colors ${
+          active ? "text-ink" : "text-ink-dim hover:text-ink"
+        }`}
+      >
+        {label}
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
+
+      {variant === "mega" ? (
+        <div
+          className={`fixed left-0 right-0 top-12 z-50 transition-opacity ${
+            open ? "visible opacity-100" : "invisible opacity-0"
+          }`}
+        >
+          <div className="border-b border-line-soft bg-white/95 shadow-sm backdrop-blur-xl">
+            <div className="mx-auto grid max-w-6xl grid-cols-2 gap-10 px-5 py-10">
+              {groups.map((group) => (
+                <div key={group.title}>
+                  <div className="px-3 text-[12px] text-ink-faint">
+                    {group.title}
+                  </div>
+                  <div className="mt-3 flex flex-col">
+                    {group.items.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setOpen(false)}
+                        className="rounded-lg px-3 py-2 text-[14px] font-medium text-ink transition-colors hover:bg-surface"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div
+          className={`absolute left-0 top-full z-50 w-52 rounded-2xl border border-line-soft bg-white p-2 shadow-md transition-opacity ${
+            open ? "visible opacity-100" : "invisible opacity-0"
+          }`}
+        >
+          {groups.flatMap((group) => group.items).map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="block rounded-xl px-3 py-2 text-[14px] font-medium text-ink transition-colors hover:bg-surface"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function SiteHeader() {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  const productActive =
+    pathname.startsWith("/products") ||
+    pathname.startsWith("/courses") ||
+    pathname.startsWith("/bench") ||
+    pathname.startsWith("/api");
+  const insightsActive =
+    pathname.startsWith("/news") || pathname.startsWith("/research");
 
   return (
     <header className="sticky top-0 z-50 border-b border-line-soft bg-white/80 backdrop-blur-xl">
@@ -87,76 +198,18 @@ export default function SiteHeader() {
             首页
           </Link>
 
-          <div
-            className="relative"
-            onMouseEnter={openProducts}
-            onMouseLeave={closeProductsSoon}
-            onBlur={(event) => {
-              if (!event.currentTarget.contains(event.relatedTarget as Node)) {
-                setProductsOpen(false);
-              }
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "Escape") setProductsOpen(false);
-            }}
-          >
-            <button
-              type="button"
-              aria-haspopup="true"
-              aria-expanded={productsOpen}
-              onClick={() => setProductsOpen((value) => !value)}
-              onFocus={openProducts}
-              className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-[13px] transition-colors ${
-                productActive ? "text-ink" : "text-ink-dim hover:text-ink"
-              }`}
-            >
-              产品
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </button>
-
-            <div
-              className={`fixed left-0 right-0 top-12 z-50 transition-opacity ${
-                productsOpen
-                  ? "visible opacity-100"
-                  : "invisible opacity-0"
-              }`}
-            >
-              <div className="border-b border-line-soft bg-white/95 shadow-sm backdrop-blur-xl">
-                <div className="mx-auto grid max-w-6xl grid-cols-3 gap-8 px-5 pb-8 pt-10">
-                  {productGroups.map((group) => (
-                    <div key={group.title}>
-                      <div className="px-3 text-[12px] text-ink-faint">
-                        {group.title}
-                      </div>
-                      <div className="mt-3 flex flex-col">
-                        {group.items.map((item) => (
-                          <Link
-                            key={item.href + item.label}
-                            href={item.href}
-                            onClick={() => setProductsOpen(false)}
-                            className="rounded-lg px-3 py-2 text-[14px] font-medium text-ink transition-colors hover:bg-surface"
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+          <NavMenu
+            label="产品"
+            groups={productGroups}
+            active={productActive}
+            variant="mega"
+          />
+          <NavMenu
+            label="动态与研究"
+            groups={insightsGroups}
+            active={insightsActive}
+            variant="compact"
+          />
 
           <Link
             href="/community"
@@ -210,27 +263,41 @@ export default function SiteHeader() {
             <div className="rounded-lg px-3 py-2.5 text-sm font-medium text-ink">
               产品
             </div>
-            <Link
-              href="/courses"
-              onClick={() => setOpen(false)}
-              className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
-            >
-              课程
-            </Link>
-            <Link
-              href="/bench"
-              onClick={() => setOpen(false)}
-              className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
-            >
-              Crypto bench
-            </Link>
-            <Link
-              href="/api"
-              onClick={() => setOpen(false)}
-              className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
-            >
-              API
-            </Link>
+            <div className="px-6 pt-1 text-xs text-ink-faint">模型版本</div>
+            {productGroups[0].items.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <div className="px-6 pt-2 text-xs text-ink-faint">其他产品</div>
+            {productGroups[1].items.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <div className="rounded-lg px-3 py-2.5 text-sm font-medium text-ink">
+              动态与研究
+            </div>
+            {insightsGroups[0].items.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="rounded-lg py-2.5 pl-8 pr-3 text-sm text-ink-dim hover:bg-surface hover:text-ink"
+              >
+                {item.label}
+              </Link>
+            ))}
             <Link
               href="/community"
               onClick={() => setOpen(false)}
