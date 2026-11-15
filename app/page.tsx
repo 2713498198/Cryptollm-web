@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { courses } from "@/content/courses";
 import { news } from "@/content/news";
@@ -68,9 +69,9 @@ export default function HomePage() {
     <div className="relative">
       <div
         ref={containerRef}
-        className="h-[calc(100vh_-_3rem)] snap-y snap-mandatory overflow-y-auto"
+        className="h-[calc(100dvh_-_3rem)] snap-y snap-mandatory overflow-y-auto overscroll-contain"
       >
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
             <h1 className="text-4xl font-semibold tracking-tight text-ink md:text-6xl">
               玄知 CryptoLLM
@@ -90,7 +91,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
             <SectionHead eyebrow="能力" title="能做什么" />
             <div className="grid gap-5 md:grid-cols-3">
@@ -111,9 +112,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="版本" title="四个版本" />
+            <SectionHead eyebrow="产品 · 模型" title="玄知模型" />
             <div className="grid gap-5 md:grid-cols-2">
               {versions.map((version) => (
                 <VersionCard key={version.slug} version={version} />
@@ -122,9 +123,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="平台" title="Crypto bench 与 API" />
+            <SectionHead eyebrow="产品 · 平台" title="Crypto bench 与 API" />
             <div className="grid gap-5 md:grid-cols-2">
               <div className="flex flex-col rounded-3xl bg-surface p-7">
                 <h3 className="text-[17px] font-semibold text-ink">
@@ -154,9 +155,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
-            <SectionHead eyebrow="课程" title="学习资源" />
+            <SectionHead eyebrow="产品 · 课程" title="学习资源" />
             <div className="grid gap-5 md:grid-cols-3">
               {courses.map((course) => (
                 <CourseCard key={course.slug} course={course} />
@@ -165,24 +166,28 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
             <SectionHead eyebrow="动态" title="研究与新闻" />
             <div className="grid gap-5 md:grid-cols-2">
-              <div className="flex flex-col rounded-3xl bg-surface p-7">
+              <Link
+                href="/research"
+                className="flex flex-col rounded-3xl bg-surface p-7 transition-colors hover:bg-surface-2"
+              >
                 <div className="flex items-center justify-between">
-                  <h3 className="text-[17px] font-semibold text-ink">研究</h3>
+                  <span className="text-[12px] text-ink-faint">论文 · PDF</span>
                   <PlaceholderBadge />
                 </div>
+                <h3 className="mt-2 text-[17px] font-semibold text-ink">
+                  研究成果
+                </h3>
                 <p className="mt-4 flex-1 text-[14px] leading-6 text-ink-dim">
                   论文研究成果以 PDF 形式集中展示，可查看与下载。
                 </p>
-                <div className="mt-6">
-                  <LinkButton href="/research" variant="ghost">
-                    查看研究
-                  </LinkButton>
+                <div className="mt-auto pt-6 text-[13px] text-accent">
+                  查看研究成果 →
                 </div>
-              </div>
+              </Link>
               <div className="flex flex-col gap-4">
                 {news.map((item) => (
                   <NewsCard key={item.slug} item={item} />
@@ -192,7 +197,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="flex min-h-[calc(100vh_-_3rem)] snap-start items-center">
+        <section className="flex min-h-[calc(100dvh_-_3rem)] snap-start items-center">
           <div className="mx-auto w-full max-w-6xl px-5">
             <SectionHead eyebrow="社群" title="加入交流群" />
             <div className="flex flex-col items-start gap-8 md:flex-row md:items-center">

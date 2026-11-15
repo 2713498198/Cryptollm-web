@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { courses } from "@/content/courses";
 import { LinkButton, PlaceholderBadge } from "@/components/ui";
@@ -34,7 +35,13 @@ export default async function CoursePage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
-      <div className="max-w-3xl">
+      <Link
+        href="/courses"
+        className="text-[13px] text-ink-dim transition-colors hover:text-ink"
+      >
+        ← 返回课程
+      </Link>
+      <div className="mt-8 max-w-3xl">
         <div className="flex items-center gap-3">
           <span className="text-sm font-medium text-accent">课程</span>
           <PlaceholderBadge />

@@ -130,7 +130,10 @@ export function VersionCard({ version }: { version: Version }) {
         <h3 className="text-[17px] font-semibold text-ink">{version.name}</h3>
         {version.features.includes("待补充") && <PlaceholderBadge />}
       </div>
-      <p className="mt-4 flex-1 text-[14px] leading-6 text-ink-dim">
+      {version.tagline !== "待补充" && (
+        <p className="mt-1 text-[13px] text-accent">{version.tagline}</p>
+      )}
+      <p className="mt-3 flex-1 text-[14px] leading-6 text-ink-dim">
         {version.description}
       </p>
       <div className="mt-6 flex items-center justify-between text-[13px]">
@@ -173,6 +176,9 @@ export function NewsCard({ item }: { item: NewsItem }) {
       <p className="line-clamp-2 text-[14px] leading-6 text-ink-dim">
         {item.body[0]}
       </p>
+      <div className="mt-auto pt-6 text-[13px] text-accent">
+        阅读全文 →
+      </div>
     </Link>
   );
 }

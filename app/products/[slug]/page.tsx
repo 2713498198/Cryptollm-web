@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { versions } from "@/content/versions";
 import { LinkButton, PlaceholderBadge, VideoSlot } from "@/components/ui";
@@ -28,7 +29,13 @@ export default async function VersionPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
-      <div className="max-w-3xl">
+      <Link
+        href="/"
+        className="text-[13px] text-ink-dim transition-colors hover:text-ink"
+      >
+        ← 返回首页
+      </Link>
+      <div className="mt-8 max-w-3xl">
         <div className="flex items-center gap-3">
           <span className="text-sm font-medium text-ink-dim">版本</span>
           {version.features.includes("待补充") && <PlaceholderBadge />}
@@ -68,8 +75,8 @@ export default async function VersionPage({ params }: Props) {
         <p className="mt-2 text-sm text-ink-dim">{version.access.note}</p>
         <div className="mt-5">
           {version.access.type === "none" ? (
-            <LinkButton href="/products" variant="ghost">
-              返回产品中心
+            <LinkButton href="/" variant="ghost">
+              返回首页
             </LinkButton>
           ) : (
             <LinkButton

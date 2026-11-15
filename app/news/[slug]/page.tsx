@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { news } from "@/content/news";
 
@@ -27,7 +28,13 @@ export default async function NewsDetailPage({ params }: Props) {
 
   return (
     <article className="mx-auto max-w-3xl px-5 py-16">
-      <div className="flex items-center gap-3 text-sm text-ink-faint">
+      <Link
+        href="/news"
+        className="text-[13px] text-ink-dim transition-colors hover:text-ink"
+      >
+        ← 返回新闻动态
+      </Link>
+      <div className="mt-6 flex items-center gap-3 text-sm text-ink-faint">
         <span>{item.date}</span>
         <span className="h-1 w-1 rounded-full bg-ink-faint" />
         <span>{item.source}</span>
