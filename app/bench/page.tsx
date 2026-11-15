@@ -14,7 +14,7 @@ export default function BenchPage() {
       subtitle="Crypto bench 系统由接入团队提供，系统就绪后入口链接将挂到官网。"
       headingLevel="h1"
     >
-      <div className="max-w-2xl rounded-2xl border border-line bg-surface p-6">
+      <div className="max-w-2xl rounded-[14px] border border-line bg-surface p-6">
         <p className="text-sm leading-7 text-ink-dim">
           当前为前台入口占位。系统上线后，这里将提供可直接跳转的链接与说明。
         </p>

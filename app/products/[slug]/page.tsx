@@ -49,7 +49,7 @@ export default async function VersionPage({ params }: Props) {
         </p>
       </div>
 
-      <div className="mt-10 grid gap-5 rounded-2xl border border-line bg-surface p-6 md:grid-cols-3">
+      <div className="mt-10 grid gap-5 rounded-[14px] border border-line bg-surface p-6 md:grid-cols-3">
         {version.features.map((feature) => (
           <div key={feature} className="flex items-start gap-3">
             <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
@@ -70,7 +70,7 @@ export default async function VersionPage({ params }: Props) {
         </div>
       </div>
 
-      <div className="mt-12 rounded-2xl border border-line bg-surface p-6">
+      <div className="mt-12 rounded-[14px] border border-line bg-surface p-6">
         <h2 className="text-xl font-semibold text-ink">使用入口</h2>
         <p className="mt-2 text-sm text-ink-dim">{version.access.note}</p>
         <div className="mt-5">

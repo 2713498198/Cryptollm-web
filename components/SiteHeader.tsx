@@ -81,7 +81,7 @@ function NavMenu({
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
         onFocus={openMenu}
-        className={`rounded-full px-3 py-1.5 text-[13px] transition-colors ${
+        className={`rounded-lg px-2.5 py-1.5 text-[14px] transition-colors ${
           active ? "text-ink" : "text-ink-dim hover:text-ink"
         }`}
       >
@@ -89,11 +89,11 @@ function NavMenu({
       </button>
 
       <div
-        className={`fixed left-0 right-0 top-12 z-50 transition-opacity ${
+        className={`fixed left-0 right-0 top-14 z-50 transition-opacity ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <div className="border-b border-line-soft bg-white/95 shadow-sm backdrop-blur-xl">
+        <div className="border-b border-line bg-white/95 shadow-sm backdrop-blur-xl">
           <div className="mx-auto grid max-w-6xl grid-cols-2 gap-10 px-5 py-10">
             {groups.map((group) => (
               <div key={group.title}>
@@ -132,22 +132,22 @@ export default function SiteHeader() {
     pathname.startsWith("/api");
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line-soft bg-white/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-5">
+    <header className="sticky top-0 z-50 h-14 border-b border-line bg-white/75 backdrop-blur-xl">
+      <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-5">
         <Link
           href="/"
-          className="flex items-baseline gap-2 text-[15px] font-semibold tracking-tight text-ink"
+          className="flex items-baseline gap-2 text-[18px] font-semibold tracking-tight text-ink"
           onClick={() => setOpen(false)}
         >
           <span>玄知</span>
-          <span className="text-[13px] font-normal text-ink-dim">CryptoLLM</span>
+          <span className="text-[12px] font-normal text-ink-dim">CryptoLLM</span>
         </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex">
           <Link
             href="/"
             aria-current={pathname === "/" ? "page" : undefined}
-            className={`rounded-full px-3 py-1.5 text-[13px] transition-colors ${
+            className={`rounded-lg px-2.5 py-1.5 text-[14px] transition-colors ${
               pathname === "/" ? "text-ink" : "text-ink-dim hover:text-ink"
             }`}
           >
@@ -162,7 +162,7 @@ export default function SiteHeader() {
           <Link
             href="/news"
             aria-current={pathname.startsWith("/news") ? "page" : undefined}
-            className={`rounded-full px-3 py-1.5 text-[13px] transition-colors ${
+            className={`rounded-lg px-2.5 py-1.5 text-[14px] transition-colors ${
               pathname.startsWith("/news")
                 ? "text-ink"
                 : "text-ink-dim hover:text-ink"
@@ -173,7 +173,7 @@ export default function SiteHeader() {
           <Link
             href="/research"
             aria-current={pathname.startsWith("/research") ? "page" : undefined}
-            className={`rounded-full px-3 py-1.5 text-[13px] transition-colors ${
+            className={`rounded-lg px-2.5 py-1.5 text-[14px] transition-colors ${
               pathname.startsWith("/research")
                 ? "text-ink"
                 : "text-ink-dim hover:text-ink"
@@ -184,13 +184,13 @@ export default function SiteHeader() {
 
           <Link
             href="/community"
-            className="rounded-full px-3 py-1.5 text-[13px] text-ink-dim transition-colors hover:text-ink"
+            className="rounded-lg px-2.5 py-1.5 text-[14px] text-ink-dim transition-colors hover:text-ink"
           >
             加入社群
           </Link>
           <Link
             href="/login"
-            className="rounded-full px-3 py-1.5 text-[13px] text-ink-dim transition-colors hover:text-ink"
+            className="rounded-lg px-2.5 py-1.5 text-[14px] text-ink-dim transition-colors hover:text-ink"
           >
             登录
           </Link>

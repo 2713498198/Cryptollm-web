@@ -19,7 +19,7 @@ export default function LoginPage() {
           统一账号登录由接入团队提供，入口待接入。接入后，一个账号即可登录整个玄知系统。
         </p>
         <div className="mt-6 flex items-center gap-3">
-          <span className="inline-flex cursor-not-allowed items-center justify-center rounded-full bg-accent px-5 py-2 text-[14px] font-medium text-white opacity-40">
+          <span className="inline-flex cursor-not-allowed items-center justify-center rounded-[10px] border border-line bg-white px-5 py-2.5 text-[13px] font-medium text-ink-faint">
             统一登录（待接入）
           </span>
           <PlaceholderBadge />

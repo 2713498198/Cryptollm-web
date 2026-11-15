@@ -15,7 +15,7 @@ export default function CommunityPage() {
       headingLevel="h1"
     >
       <div className="flex flex-col items-start gap-8 md:flex-row md:items-center">
-        <div className="flex h-44 w-44 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line bg-surface text-center">
+        <div className="flex h-44 w-44 flex-col items-center justify-center gap-2 rounded-[18px] border border-line bg-surface text-center">
           <span className="text-sm text-ink-dim">群二维码</span>
           <span className="text-xs text-ink-faint">待补充</span>
         </div>

@@ -52,18 +52,16 @@ export function LinkButton({
   disabled?: boolean;
 }) {
   const base =
-    "inline-flex items-center justify-center rounded-full px-5 py-2 text-[14px] font-medium transition-colors";
+    "inline-flex items-center justify-center rounded-[10px] px-5 py-2.5 text-[13px] font-medium transition-colors";
   const styles =
     variant === "primary"
-      ? "bg-accent text-white hover:bg-accent-strong"
-      : "bg-transparent text-accent hover:underline";
+      ? "bg-[linear-gradient(180deg,#1a6bff_0%,#0b57f0_100%)] text-white hover:brightness-105"
+      : "border border-line bg-white text-ink hover:border-accent/40";
 
   if (disabled) {
     return (
       <span
-        className={`${base} cursor-not-allowed opacity-40 ${
-          variant === "primary" ? "bg-accent text-white" : "text-ink-dim"
-        }`}
+        className={`${base} cursor-not-allowed border border-line bg-white text-ink-faint opacity-60`}
       >
         {children}
       </span>
@@ -91,7 +89,7 @@ export function LinkButton({
 
 export function PlaceholderBadge() {
   return (
-    <span className="inline-flex items-center rounded-full bg-surface px-2.5 py-0.5 text-xs text-ink-dim">
+    <span className="inline-flex items-center rounded-md border border-line bg-white px-2.5 py-0.5 text-[11px] text-ink-dim">
       待补充
     </span>
   );
@@ -99,8 +97,8 @@ export function PlaceholderBadge() {
 
 export function VideoSlot({ title, note }: { title: string; note?: string }) {
   return (
-    <div className="flex aspect-video flex-col items-center justify-center rounded-2xl bg-surface">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-ink-dim shadow-sm">
+    <div className="flex aspect-video flex-col items-center justify-center rounded-[14px] border border-line bg-surface">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-surface-2 text-ink-dim">
         <svg
           width="20"
           height="20"
@@ -124,21 +122,25 @@ export function VersionCard({ version }: { version: Version }) {
   return (
     <Link
       href={`/products/${version.slug}`}
-      className="group flex flex-col rounded-3xl bg-surface p-7 transition-colors hover:bg-surface-2"
+      className="group flex flex-col rounded-[14px] border border-line bg-surface p-4 transition-colors hover:border-accent/30 hover:bg-[#fbfdff] md:p-6"
     >
       <div className="flex items-start justify-between gap-3">
-        <h3 className="text-[17px] font-semibold text-ink">{version.name}</h3>
+        <h3 className="text-[15px] font-semibold text-ink md:text-[17px]">
+          {version.name}
+        </h3>
         {version.features.includes("待补充") && <PlaceholderBadge />}
       </div>
       {version.tagline !== "待补充" && (
-        <p className="mt-1 text-[13px] text-accent">{version.tagline}</p>
+        <p className="mt-1 text-[12px] text-accent md:text-[13px]">
+          {version.tagline}
+        </p>
       )}
-      <p className="mt-3 flex-1 text-[14px] leading-6 text-ink-dim">
+      <p className="mt-3 hidden flex-1 text-[14px] leading-6 text-ink-dim md:block">
         {version.description}
       </p>
-      <div className="mt-6 flex items-center justify-between text-[13px]">
+      <div className="mt-4 flex items-center justify-between text-[12px] md:mt-6 md:text-[13px]">
         <span className="text-ink-dim">{version.videos.length} 个宣传视频</span>
-        <span className="text-accent">查看详情 →</span>
+        <span className="text-accent">查看详情</span>
       </div>
     </Link>
   );
@@ -148,13 +150,13 @@ export function CourseCard({ course }: { course: Course }) {
   return (
     <Link
       href={`/courses/${course.slug}`}
-      className="group flex flex-col rounded-3xl bg-surface p-7 transition-colors hover:bg-surface-2"
+      className="group flex flex-col rounded-[14px] border border-line bg-surface p-6 transition-colors hover:border-accent/30 hover:bg-[#fbfdff]"
     >
       <h3 className="text-[17px] font-semibold text-ink">{course.title}</h3>
       <p className="mt-4 flex-1 text-[14px] leading-6 text-ink-dim">
         {course.summary}
       </p>
-      <div className="mt-6 text-[13px] text-accent">查看课程 →</div>
+      <div className="mt-6 text-[13px] text-accent">查看课程</div>
     </Link>
   );
 }
@@ -163,21 +165,23 @@ export function NewsCard({ item }: { item: NewsItem }) {
   return (
     <Link
       href={`/news/${item.slug}`}
-      className="group flex flex-col gap-2 rounded-3xl bg-surface p-7 transition-colors hover:bg-surface-2"
+      className="group flex flex-col gap-2 rounded-[14px] border border-line bg-surface p-6 transition-colors hover:border-accent/30 hover:bg-[#fbfdff]"
     >
-      <div className="flex items-center gap-2 text-xs text-ink-faint">
+      <div className="flex flex-wrap items-center gap-2 text-xs text-ink-faint">
+        <span className="rounded-md bg-surface-2 px-2 py-0.5 text-ink-dim">
+          {item.category}
+        </span>
         <span>{item.date}</span>
-        <span className="h-0.5 w-0.5 rounded-full bg-ink-faint" />
         <span>{item.source}</span>
       </div>
       <h3 className="text-[15px] font-semibold leading-6 text-ink">
         {item.title}
       </h3>
       <p className="line-clamp-2 text-[14px] leading-6 text-ink-dim">
-        {item.body[0]}
+        {item.summary}
       </p>
       <div className="mt-auto pt-6 text-[13px] text-accent">
-        阅读全文 →
+        阅读全文
       </div>
     </Link>
   );
