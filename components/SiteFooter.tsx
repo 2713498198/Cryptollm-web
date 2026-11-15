@@ -24,7 +24,6 @@ const columns = [
     title: "社群",
     links: [
       { href: "/community", label: "加入社群" },
-      { href: "/login", label: "登录" },
     ],
   },
 ];
