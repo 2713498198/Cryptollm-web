@@ -32,7 +32,6 @@ const productGroups = [
     items: [
       { href: "/news", label: "新闻动态" },
       { href: "/research", label: "研究成果" },
-      { href: "/community", label: "加入社群" },
     ],
   },
 ];
