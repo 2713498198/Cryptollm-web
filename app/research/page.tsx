@@ -19,8 +19,8 @@ export default function ResearchPage() {
         <span className="text-sm text-ink-dim">论文列表</span>
         <PlaceholderBadge />
       </div>
-      <div className="overflow-hidden rounded-2xl border border-line">
-        <div className="grid grid-cols-[1fr_auto] gap-4 border-b border-line bg-surface px-6 py-3 text-xs text-ink-dim md:grid-cols-[2fr_1.2fr_1fr_1fr_auto]">
+      <div className="border-y border-line">
+        <div className="grid grid-cols-[1fr_auto] gap-4 border-b border-line bg-surface-2/40 py-3 font-mono text-[10px] text-ink-faint md:grid-cols-[2fr_1.2fr_1fr_1fr_auto]">
           <span>标题</span>
           <span className="hidden md:block">作者</span>
           <span className="hidden md:block">来源</span>
@@ -30,12 +30,12 @@ export default function ResearchPage() {
         {papers.map((paper) => (
           <div
             key={paper.title}
-            className="grid grid-cols-[1fr_auto] gap-4 border-b border-line-soft px-6 py-4 text-sm last:border-b-0 md:grid-cols-[2fr_1.2fr_1fr_1fr_auto]"
+            className="grid grid-cols-[1fr_auto] gap-4 border-b border-line-soft py-4 text-sm last:border-b-0 md:grid-cols-[2fr_1.2fr_1fr_1fr_auto]"
           >
             <div>
-              <div className="font-medium text-ink">{paper.title}</div>
+              <div className="font-display text-[20px] font-semibold text-ink">{paper.title}</div>
               <p className="mt-1 text-xs leading-5 text-ink-dim md:hidden">
-                {paper.authors} · {paper.venue}
+                {paper.authors} / {paper.venue}
               </p>
               <p className="mt-1 max-w-2xl text-xs leading-5 text-ink-faint">
                 {paper.abstract}

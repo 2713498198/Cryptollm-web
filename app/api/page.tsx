@@ -15,27 +15,27 @@ export default function ApiPage() {
       headingLevel="h1"
     >
       <div className="grid gap-5 md:grid-cols-3">
-        <div className="flex flex-col rounded-2xl border border-line bg-surface p-6">
+        <div className="flex flex-col border-t border-line pt-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-semibold text-ink">购买计费</h2>
+            <h2 className="font-display text-[22px] font-semibold text-ink">购买计费</h2>
             <PlaceholderBadge />
           </div>
           <p className="mt-3 flex-1 text-sm leading-6 text-ink-dim">
             API 购买与计费。方案拟参考智谱 GLM 5.3 系列，以接入团队确认为准。
           </p>
         </div>
-        <div className="flex flex-col rounded-2xl border border-line bg-surface p-6">
+        <div className="flex flex-col border-t border-line pt-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-semibold text-ink">API 管理</h2>
+            <h2 className="font-display text-[22px] font-semibold text-ink">API 管理</h2>
             <PlaceholderBadge />
           </div>
           <p className="mt-3 flex-1 text-sm leading-6 text-ink-dim">
             API 密钥与用量管理，待接入团队提供。
           </p>
         </div>
-        <div className="flex flex-col rounded-2xl border border-line bg-surface p-6">
+        <div className="flex flex-col border-t border-line pt-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-semibold text-ink">接入说明文档</h2>
+            <h2 className="font-display text-[22px] font-semibold text-ink">接入说明文档</h2>
             <PlaceholderBadge />
           </div>
           <p className="mt-3 flex-1 text-sm leading-6 text-ink-dim">
@@ -44,8 +44,8 @@ export default function ApiPage() {
         </div>
       </div>
 
-      <div className="mt-8 rounded-2xl border border-line bg-surface p-6">
-        <h2 className="text-base font-semibold text-ink">统一账号登录</h2>
+      <div className="mt-10 border-t border-line pt-5">
+        <h2 className="font-display text-[22px] font-semibold text-ink">统一账号登录</h2>
         <p className="mt-2 text-sm leading-6 text-ink-dim">
           统一账号：一个账号登录整个玄知系统。能力由接入团队提供，前台仅保留入口。
         </p>

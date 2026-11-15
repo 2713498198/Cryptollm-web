@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import {
   useCallback,
   useEffect,
   useRef,
   useState,
+  type ReactNode,
   type TouchEvent,
 } from "react";
 import { courses } from "@/content/courses";
@@ -15,7 +15,6 @@ import {
   CourseCard,
   LinkButton,
   NewsCard,
-  PlaceholderBadge,
   VersionCard,
 } from "@/components/ui";
 
@@ -37,16 +36,35 @@ const capabilities = [
 const PANEL_COUNT = 7;
 const NAV_COOLDOWN_MS = 850;
 
-function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
+function PanelLayout({
+  index,
+  label,
+  children,
+}: {
+  index: number;
+  label: string;
+  children: ReactNode;
+}) {
   return (
-    <div className="mb-5 md:mb-8">
-      <div className="text-[13px] font-medium tracking-wide text-ink-dim">
-        {eyebrow}
+    <div className="grid gap-5 md:grid-cols-[128px_1fr] md:gap-10">
+      <div className="flex items-baseline justify-between border-t border-line pt-3 md:block">
+        <div className="font-mono text-[10px] text-ink-faint">
+          {String(index).padStart(2, "0")} / 07
+        </div>
+        <div className="font-mono text-[10px] text-ink-dim md:mt-2">
+          {label}
+        </div>
       </div>
-      <h2 className="mt-1 text-2xl font-semibold tracking-tight text-ink md:text-4xl">
-        {title}
-      </h2>
+      <div className="border-t border-line pt-3">{children}</div>
     </div>
+  );
+}
+
+function PanelTitle({ children }: { children: ReactNode }) {
+  return (
+    <h2 className="font-display text-[30px] font-semibold leading-tight tracking-tight text-ink md:text-[42px]">
+      {children}
+    </h2>
   );
 }
 
@@ -180,74 +198,96 @@ export default function HomePage() {
   };
 
   const panels = [
-    <div key="hero">
-      <h1 className="text-4xl font-semibold tracking-tight text-ink md:text-6xl">
-        玄知 CryptoLLM
-      </h1>
-      <p className="mt-6 max-w-2xl text-[17px] leading-8 text-ink-dim md:text-[19px]">
-        面向密码学领域的大语言模型。分析密码算法，验证协议安全，审计工程实现。
-      </p>
-      <div className="mt-8 flex flex-wrap items-center gap-4">
-        <LinkButton href="/products/v3">体验 V3</LinkButton>
-        <LinkButton href="/products/v4" variant="ghost">
-          申请 V4 邀请码
-        </LinkButton>
+    <div
+      key="hero"
+      className="grid gap-10 md:grid-cols-[1.15fr_0.85fr] md:items-end"
+    >
+      <div>
+        <div className="font-mono text-[10px] text-ink-faint">
+          玄知 / CRYPTOLLM
+        </div>
+        <h1 className="mt-4 font-display text-[46px] font-semibold leading-[1.04] tracking-tight text-ink md:text-[86px]">
+          可验证的
+          <br />
+          密码智能
+        </h1>
+        <p className="mt-6 max-w-xl text-[16px] leading-8 text-ink-dim">
+          面向密码学领域的大语言模型。分析密码算法，验证协议安全，审计工程实现。
+        </p>
+        <div className="mt-8 flex flex-wrap items-center gap-5">
+          <LinkButton href="/products/v3">体验 V3</LinkButton>
+          <LinkButton href="/products/v4" variant="ghost">
+            申请 V4 邀请码
+          </LinkButton>
+        </div>
       </div>
-      <p className="mt-6 text-[13px] text-ink-faint">
-        V3 公开访问 · V4 邀请码内测
-      </p>
+
+      <div className="border-t border-line font-mono text-[11px] text-ink-dim">
+        {[
+          ["CryptoLLM", "理解与推理"],
+          ["CryptoHarness", "组织与执行"],
+          ["CryptoVerifier", "检验与判定"],
+        ].map(([name, role], index) => (
+          <div
+            key={name}
+            className={`flex items-baseline justify-between gap-4 py-3 ${
+              index > 0 ? "border-t border-line-soft" : ""
+            }`}
+          >
+            <span className="text-ink">{name}</span>
+            <span className="text-ink-faint">{role}</span>
+          </div>
+        ))}
+        <div className="border-t border-line py-3 text-ink-faint">
+          V3 公开访问 / V4 邀请码内测
+        </div>
+      </div>
     </div>,
 
-    <div key="capabilities">
-      <SectionHead eyebrow="能力" title="能做什么" />
-      <div className="grid gap-4 md:grid-cols-3">
-        {capabilities.map((capability) => (
-          <div key={capability.title} className="rounded-3xl bg-surface p-6">
-            <h3 className="text-[17px] font-semibold text-ink">
+    <PanelLayout key="capabilities" index={2} label="能力">
+      <PanelTitle>从算法到工程</PanelTitle>
+      <div className="mt-8 grid gap-0 md:grid-cols-3">
+        {capabilities.map((capability, index) => (
+          <div
+            key={capability.title}
+            className={`border-t border-line py-5 md:border-t-0 md:border-l md:px-6 ${
+              index === 0 ? "md:border-l-0 md:pl-0" : ""
+            }`}
+          >
+            <h3 className="font-display text-[22px] font-semibold text-ink">
               {capability.title}
             </h3>
-            <p className="mt-3 text-[14px] leading-6 text-ink-dim">
+            <p className="mt-3 max-w-xs text-[14px] leading-6 text-ink-dim">
               {capability.body}
             </p>
           </div>
         ))}
       </div>
-    </div>,
+    </PanelLayout>,
 
-    <div key="models">
-      <SectionHead eyebrow="产品 · 模型" title="玄知模型" />
-      <div className="hidden gap-5 md:grid md:grid-cols-2">
+    <PanelLayout key="models" index={3} label="模型">
+      <div className="flex items-baseline justify-between gap-4">
+        <PanelTitle>玄知模型</PanelTitle>
+        <span className="font-mono text-[10px] text-ink-faint">V4 → V1</span>
+      </div>
+      <div className="mt-6">
         {versions.map((version) => (
           <VersionCard key={version.slug} version={version} />
         ))}
       </div>
-      <div className="grid grid-cols-2 gap-3 md:hidden">
-        {versions.map((version) => (
-          <Link
-            key={version.slug}
-            href={`/products/${version.slug}`}
-            className="flex flex-col rounded-2xl bg-surface p-4 transition-colors hover:bg-surface-2"
-          >
-            <div className="text-[15px] font-semibold text-ink">
-              {version.name}
-            </div>
-            {version.tagline !== "待补充" && (
-              <div className="mt-1 text-[12px] text-accent">
-                {version.tagline}
-              </div>
-            )}
-            <div className="mt-4 text-[12px] text-accent">查看详情 →</div>
-          </Link>
-        ))}
-      </div>
-    </div>,
+    </PanelLayout>,
 
-    <div key="platform">
-      <SectionHead eyebrow="产品 · 平台" title="Crypto bench 与 API" />
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="flex flex-col rounded-3xl bg-surface p-6">
-          <h3 className="text-[17px] font-semibold text-ink">Crypto bench</h3>
-          <p className="mt-3 flex-1 text-[14px] leading-6 text-ink-dim">
+    <PanelLayout key="platform" index={4} label="平台">
+      <PanelTitle>基准与接口</PanelTitle>
+      <div className="mt-8 grid gap-8 md:grid-cols-2">
+        <div className="border-t border-line pt-4">
+          <div className="font-mono text-[10px] text-ink-faint">
+            Crypto bench
+          </div>
+          <h3 className="mt-3 font-display text-[24px] font-semibold text-ink">
+            密码学基准测试
+          </h3>
+          <p className="mt-3 text-[14px] leading-6 text-ink-dim">
             密码学基准测试。系统就绪后，入口链接会挂到官网。
           </p>
           <div className="mt-5">
@@ -256,9 +296,12 @@ export default function HomePage() {
             </LinkButton>
           </div>
         </div>
-        <div className="flex flex-col rounded-3xl bg-surface p-6">
-          <h3 className="text-[17px] font-semibold text-ink">API</h3>
-          <p className="mt-3 flex-1 text-[14px] leading-6 text-ink-dim">
+        <div className="border-t border-line pt-4">
+          <div className="font-mono text-[10px] text-ink-faint">API</div>
+          <h3 className="mt-3 font-display text-[24px] font-semibold text-ink">
+            开放接口
+          </h3>
+          <p className="mt-3 text-[14px] leading-6 text-ink-dim">
             开放 API 访问，支持购买计费、用量管理与接入文档。
           </p>
           <div className="mt-5">
@@ -268,62 +311,62 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-    </div>,
+    </PanelLayout>,
 
-    <div key="courses">
-      <SectionHead eyebrow="产品 · 课程" title="学习资源" />
-      <div className="grid gap-4 md:grid-cols-3">
+    <PanelLayout key="courses" index={5} label="课程">
+      <PanelTitle>课程与实验</PanelTitle>
+      <div className="mt-6 grid gap-0 md:grid-cols-3 md:gap-6">
         {courses.map((course) => (
           <CourseCard key={course.slug} course={course} />
         ))}
       </div>
-    </div>,
+    </PanelLayout>,
 
-    <div key="research-news">
-      <SectionHead eyebrow="动态" title="研究与新闻" />
-      <div className="grid gap-4 md:grid-cols-2">
-        <Link
-          href="/research"
-          className="flex flex-col rounded-3xl bg-surface p-6 transition-colors hover:bg-surface-2"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[12px] text-ink-faint">论文 · PDF</span>
-            <PlaceholderBadge />
+    <PanelLayout key="research-news" index={6} label="动态">
+      <PanelTitle>研究与新闻</PanelTitle>
+      <div className="mt-6 grid gap-8 md:grid-cols-2">
+        <div className="md:border-r md:border-line md:pr-8">
+          <div className="border-t border-line pt-4">
+            <div className="font-mono text-[10px] text-ink-faint">
+              论文 / PDF
+            </div>
+            <h3 className="mt-3 font-display text-[24px] font-semibold text-ink">
+              研究成果
+            </h3>
+            <p className="mt-3 text-[14px] leading-6 text-ink-dim">
+              论文研究成果以 PDF 形式集中展示，可查看与下载。
+            </p>
+            <div className="mt-4">
+              <LinkButton href="/research" variant="ghost">
+                查看研究成果
+              </LinkButton>
+            </div>
           </div>
-          <h3 className="mt-2 text-[17px] font-semibold text-ink">研究成果</h3>
-          <p className="mt-3 flex-1 text-[14px] leading-6 text-ink-dim">
-            论文研究成果以 PDF 形式集中展示，可查看与下载。
-          </p>
-          <div className="mt-auto pt-5 text-[13px] text-accent">
-            查看研究成果 →
-          </div>
-        </Link>
+        </div>
         {latestNews && <NewsCard item={latestNews} />}
       </div>
+    </PanelLayout>,
 
-    </div>,
-
-    <div key="community">
-      <SectionHead eyebrow="社群" title="加入客户交流群" />
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-10">
-        <div className="flex h-40 w-40 shrink-0 flex-col items-center justify-center rounded-3xl border border-dashed border-line bg-surface p-4 text-center">
-          <span className="text-sm text-ink-dim">群二维码</span>
-          <span className="mt-1 text-xs text-ink-faint">待补充</span>
-        </div>
-        <div className="max-w-md">
-          <h3 className="text-[17px] font-semibold text-ink">客户交流群</h3>
-          <p className="mt-3 text-[14px] leading-6 text-ink-dim">
+    <PanelLayout key="community" index={7} label="社群">
+      <PanelTitle>加入客户交流群</PanelTitle>
+      <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+        <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-end">
+          <div className="flex h-36 w-36 shrink-0 flex-col items-center justify-center border border-line bg-surface text-center">
+            <span className="text-[13px] text-ink-dim">群二维码</span>
+            <span className="mt-1 font-mono text-[10px] text-ink-faint">
+              待补充
+            </span>
+          </div>
+          <p className="max-w-sm text-[14px] leading-6 text-ink-dim">
             扫码加入玄知客户交流群，获取产品动态、活动通知与技术支持。群二维码与加群说明待补充。
           </p>
-          <div className="mt-5">
-            <LinkButton href="/community">查看加群方式</LinkButton>
-          </div>
         </div>
+        <LinkButton href="/community">查看加群方式</LinkButton>
       </div>
-      <div className="mt-10 text-[12px] text-ink-faint">
-        © 2026 玄知 CryptoLLM · Powered by XDU NSS · ICP 备案号待补充
+      <div className="mt-12 border-t border-line pt-4 font-mono text-[10px] text-ink-faint">
+        © 2026 玄知 CryptoLLM / Powered by XDU NSS / ICP 备案号待补充
       </div>
-    </div>,
+    </PanelLayout>,
   ];
 
   return (
@@ -363,7 +406,7 @@ export default function HomePage() {
         );
       })}
 
-      <div className="fixed right-4 top-1/2 z-50 flex -translate-y-1/2 flex-col items-center gap-2">
+      <div className="fixed right-4 top-1/2 z-50 flex -translate-y-1/2 flex-col items-center gap-1.5">
         {Array.from({ length: PANEL_COUNT }).map((_, index) => (
           <button
             key={index}
@@ -371,13 +414,13 @@ export default function HomePage() {
             aria-label={`第 ${index + 1} 屏`}
             aria-current={active === index ? "true" : undefined}
             onClick={() => go(index, true)}
-            className="flex h-6 w-6 items-center justify-center rounded-full"
+            className="flex h-6 w-6 items-center justify-center"
           >
             <span
-              className={`rounded-full transition-all ${
+              className={`w-[2px] transition-all ${
                 active === index
-                  ? "h-3 w-3 bg-accent"
-                  : "h-3 w-3 bg-ink/20 hover:bg-ink/40"
+                  ? "h-6 bg-accent"
+                  : "h-3 bg-ink/20 hover:bg-ink/40"
               }`}
             />
           </button>

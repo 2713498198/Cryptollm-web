@@ -15,12 +15,12 @@ export default function CommunityPage() {
       headingLevel="h1"
     >
       <div className="flex flex-col items-start gap-8 md:flex-row md:items-center">
-        <div className="flex h-44 w-44 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line bg-surface text-center">
+        <div className="flex h-44 w-44 flex-col items-center justify-center gap-2 border border-line bg-surface text-center">
           <span className="text-sm text-ink-dim">群二维码</span>
           <span className="text-xs text-ink-faint">待补充</span>
         </div>
         <div className="max-w-md">
-          <h2 className="text-lg font-semibold text-ink">如何加群</h2>
+          <h2 className="font-display text-[24px] font-semibold text-ink">如何加群</h2>
           <p className="mt-3 text-sm leading-6 text-ink-dim">
             群二维码与加群说明待补充。届时这里将提供扫码入口，并同步到全站页脚的“加入社群”。
           </p>
