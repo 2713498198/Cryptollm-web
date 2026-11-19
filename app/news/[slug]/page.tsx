@@ -1,8 +1,10 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { news } from "@/content/news";
+import { DetailSkeleton } from "@/components/ui";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -28,7 +30,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function NewsDetailPage({ params }: Props) {
+export default function NewsDetailPage({ params }: Props) {
+  return (
+    <Suspense fallback={<DetailSkeleton />}>
+      <NewsDetailContent params={params} />
+    </Suspense>
+  );
+}
+
+async function NewsDetailContent({ params }: Props) {
   const { slug } = await params;
   const item = news.find((n) => n.slug === slug);
   if (!item) notFound();

@@ -1,8 +1,13 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { courses } from "@/content/courses";
-import { LinkButton, PlaceholderBadge } from "@/components/ui";
+import {
+  DetailSkeleton,
+  LinkButton,
+  PlaceholderBadge,
+} from "@/components/ui";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -22,7 +27,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function CoursePage({ params }: Props) {
+export default function CoursePage({ params }: Props) {
+  return (
+    <Suspense fallback={<DetailSkeleton wide />}>
+      <CourseContent params={params} />
+    </Suspense>
+  );
+}
+
+async function CourseContent({ params }: Props) {
   const { slug } = await params;
   const course = courses.find((c) => c.slug === slug);
   if (!course) notFound();
