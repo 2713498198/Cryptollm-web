@@ -9,6 +9,7 @@
 - 静态内容（内容集中在 `content/` 目录）
 
 ## 本地运行
+## 启动方式，在终端运行：.\start-dev.bat
 
 ```bash
 npm install
