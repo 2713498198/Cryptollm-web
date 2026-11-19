@@ -20,7 +20,7 @@ public class UserAccountDO extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 对外展示的 18 位账号 ID。
+     * 对外展示的雪花账号 ID，默认与内部主键保持一致。
      */
     @TableField("account_no")
     private String accountNo;

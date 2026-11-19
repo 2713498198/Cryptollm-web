@@ -1,9 +1,12 @@
 package com.cryptollm.login.infrastructure.cache;
 
 import com.cryptollm.login.domain.enums.VerificationCodeScene;
+import com.cryptollm.login.infrastructure.constant.AuthConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+
+import java.time.Duration;
 
 /**
  * 短信验证码 Redis 缓存。
@@ -21,8 +24,11 @@ public class VerificationCodeCache {
             String verificationCode,
             long expireSeconds
     ) {
-        // TODO: 写入验证码并设置过期时间。
-        throw new UnsupportedOperationException("TODO: save verification code");
+        stringRedisTemplate.opsForValue().set(
+                buildVerificationCodeKey(phoneCountryCode, phone, scene),
+                verificationCode,
+                Duration.ofSeconds(expireSeconds)
+        );
     }
 
     public String find(
@@ -30,8 +36,9 @@ public class VerificationCodeCache {
             String phone,
             VerificationCodeScene scene
     ) {
-        // TODO: 从 Redis 读取验证码。
-        throw new UnsupportedOperationException("TODO: find verification code");
+        return stringRedisTemplate.opsForValue().get(
+                buildVerificationCodeKey(phoneCountryCode, phone, scene)
+        );
     }
 
     public void delete(
@@ -39,13 +46,15 @@ public class VerificationCodeCache {
             String phone,
             VerificationCodeScene scene
     ) {
-        // TODO: 验证成功后删除验证码。
-        throw new UnsupportedOperationException("TODO: delete verification code");
+        stringRedisTemplate.delete(
+                buildVerificationCodeKey(phoneCountryCode, phone, scene)
+        );
     }
 
     public boolean canSend(String phoneCountryCode, String phone) {
-        // TODO: 根据发送频率 Key 判断是否允许再次发送。
-        throw new UnsupportedOperationException("TODO: check sms send interval");
+        return Boolean.FALSE.equals(
+                stringRedisTemplate.hasKey(buildResendKey(phoneCountryCode, phone))
+        );
     }
 
     public void markSent(
@@ -53,7 +62,27 @@ public class VerificationCodeCache {
             String phone,
             long intervalSeconds
     ) {
-        // TODO: 记录发送时间或发送频率限制 Key。
-        throw new UnsupportedOperationException("TODO: mark sms as sent");
+        stringRedisTemplate.opsForValue().set(
+                buildResendKey(phoneCountryCode, phone),
+                "1",
+                Duration.ofSeconds(intervalSeconds)
+        );
+    }
+
+    private String buildVerificationCodeKey(
+            String phoneCountryCode,
+            String phone,
+            VerificationCodeScene scene
+    ) {
+        return AuthConstant.SMS_CODE_PREFIX
+                + phoneCountryCode
+                + ":"
+                + phone
+                + ":"
+                + scene.name();
+    }
+
+    private String buildResendKey(String phoneCountryCode, String phone) {
+        return AuthConstant.SMS_RESEND_PREFIX + phoneCountryCode + ":" + phone;
     }
 }

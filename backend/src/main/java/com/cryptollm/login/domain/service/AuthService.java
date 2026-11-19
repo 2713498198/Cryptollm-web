@@ -15,11 +15,15 @@ import com.cryptollm.login.response.LoginResVO;
  */
 public interface AuthService extends IService<UserAccountDO> {
 
+    // 发送验证码
     void sendVerificationCode(SendVerificationCodeContext context);
 
+    // 手机号验证码登录
     LoginResVO phoneLogin(PhoneLoginContext context);
 
+    // 账号密码登录
     LoginResVO accountLogin(AccountLoginContext context);
 
+    // 退出登录
     void logout(String accessToken);
 }

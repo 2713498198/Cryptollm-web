@@ -12,8 +12,8 @@ CREATE DATABASE IF NOT EXISTS `cryptollm`
 USE `cryptollm`;
 
 CREATE TABLE IF NOT EXISTS `user_account` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '内部主键，不直接暴露给前端',
-  `account_no` char(18) NOT NULL COMMENT '对外展示的 18 位账号 ID，由后端生成',
+  `id` bigint NOT NULL COMMENT '内部雪花主键，不直接暴露给前端',
+  `account_no` varchar(20) NOT NULL COMMENT '对外展示的雪花账号 ID，由后端生成',
   `username` varchar(32) NOT NULL COMMENT '登录用户名，用于账号密码登录',
   `nickname` varchar(64) NOT NULL COMMENT '用户显示名称',
   `phone_country_code` varchar(8) NOT NULL DEFAULT '+86' COMMENT '手机号国家或地区代码',
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `user_account` (
   KEY `idx_user_account_status` (`status`, `deleted`),
   KEY `idx_user_account_gmt_create` (`gmt_create`),
   CONSTRAINT `chk_user_account_no`
-    CHECK (`account_no` REGEXP '^[0-9]{18}$'),
+    CHECK (`account_no` REGEXP '^[0-9]{18,20}$'),
   CONSTRAINT `chk_user_account_type`
     CHECK (`account_type` IN (1, 2)),
   CONSTRAINT `chk_user_account_status`
