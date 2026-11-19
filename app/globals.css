@@ -6,7 +6,7 @@
   --color-surface-2: #eef3fa;
   --color-ink: #141417;
   --color-ink-dim: #5e626b;
-  --color-ink-faint: #8a8f99;
+  --color-ink-faint: #6b7280;
   --color-accent: #0b57f0;
   --color-accent-strong: #063ed0;
   --color-violet: #7c4dff;
@@ -78,6 +78,12 @@ pre {
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
+}
+
+.search-input:focus,
+.search-input:focus-visible {
+  outline: none;
+  outline-offset: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

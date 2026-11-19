@@ -1,8 +1,14 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { versions } from "@/content/versions";
-import { LinkButton, PlaceholderBadge, VideoSlot } from "@/components/ui";
+import {
+  DetailSkeleton,
+  LinkButton,
+  PlaceholderBadge,
+  VideoSlot,
+} from "@/components/ui";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -22,7 +28,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function VersionPage({ params }: Props) {
+export default function VersionPage({ params }: Props) {
+  return (
+    <Suspense fallback={<DetailSkeleton wide />}>
+      <VersionContent params={params} />
+    </Suspense>
+  );
+}
+
+async function VersionContent({ params }: Props) {
   const { slug } = await params;
   const version = versions.find((v) => v.slug === slug);
   if (!version) notFound();
