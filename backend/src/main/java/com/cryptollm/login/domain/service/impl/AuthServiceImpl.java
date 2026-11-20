@@ -214,7 +214,21 @@ public class AuthServiceImpl
 
     @Override
     public LoginResVO accountLogin(AccountLoginContext context) {
-        // TODO: 按用户名、邮箱或手机号查询账号并校验密码。
+        // 实现步骤：
+        // 1. 校验 context、account 和 password 不为空，并去掉 account 首尾空格。
+        // 2. 根据 account 格式识别登录类型：
+        //    包含 @ 时按邮箱查询，符合手机号规则时按手机号查询，其他情况按用户名查询。
+        // 3. 查询对应的用户账号；用户不存在时统一返回“账号或密码错误”，
+        //    避免暴露某个用户名、邮箱或手机号是否已经注册。
+        // 4. 校验用户状态是否正常，禁用、锁定或注销的账号禁止登录。
+        // 5. 校验 password_hash 不为空，并使用 PasswordEncoder.matches
+        //    对比明文密码和数据库中的 BCrypt 哈希；校验失败时同样返回统一错误。
+        // 6. 校验成功后更新用户最后登录时间和必要的登录信息。
+        // 7. 生成随机 Token，计算签发时间、绝对过期时间和 Redis TTL。
+        // 8. 调用 LoginTokenCache.save，将 accountNo、issuedAt、expiresAt
+        //    以 Hash 结构原子写入 Redis；不得保存密码、完整手机号等敏感信息。
+        // 9. 构造 LoginResVO，返回 Token、过期时间、账号资料和 newUser=false。
+        // 10. 日志不得记录明文密码、完整 Token 或完整账号敏感信息。
         throw new UnsupportedOperationException("TODO: account login");
     }
 
