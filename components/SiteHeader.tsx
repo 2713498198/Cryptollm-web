@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import UserMenu from "@/components/auth/UserMenu";
 
 type MenuItem = { href: string; label: string };
 type MenuGroup = { title: string; items: MenuItem[] };
@@ -188,12 +189,7 @@ export default function SiteHeader() {
           >
             加入社群
           </Link>
-          <Link
-            href="/login"
-            className="rounded-lg px-2.5 py-1.5 text-[14px] text-ink-dim transition-colors hover:text-ink"
-          >
-            登录
-          </Link>
+          <UserMenu />
         </nav>
 
         <button
@@ -277,13 +273,7 @@ export default function SiteHeader() {
             >
               加入社群
             </Link>
-            <Link
-              href="/login"
-              onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm text-ink-dim hover:bg-surface hover:text-ink"
-            >
-              登录
-            </Link>
+            <UserMenu mobile onNavigate={() => setOpen(false)} />
           </div>
         </nav>
       )}
