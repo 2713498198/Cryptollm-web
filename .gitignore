@@ -20,6 +20,7 @@
 # production
 /build
 /backend/target/
+/backend/build/
 
 # misc
 .DS_Store

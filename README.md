@@ -25,6 +25,15 @@ npm run build
 npm run start
 ```
 
+后端本地启动：
+
+```powershell
+.\start-backend.bat
+```
+
+当前 Windows 环境中的 `backend/target` 若出现权限占用，`start-backend.bat`
+会通过 `local-build` Maven Profile 将编译产物写入 `backend/build`，避免影响源码和 Docker 构建。
+
 ## 目录说明
 
 - `app/`：页面路由（首页、产品、课程、新闻、研究成果、社区、bench、API）

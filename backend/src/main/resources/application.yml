@@ -33,3 +33,11 @@ cryptollm:
     sms-resend-interval-seconds: ${SMS_RESEND_INTERVAL_SECONDS:60}
     token-expire-seconds: ${TOKEN_EXPIRE_SECONDS:604800}
     cors-allowed-origin: ${CORS_ALLOWED_ORIGIN:http://localhost:3000}
+  sms:
+    aliyun:
+      access-key-id: ${ALIYUN_SMS_ACCESS_KEY_ID:}
+      access-key-secret: ${ALIYUN_SMS_ACCESS_KEY_SECRET:}
+      sign-name: ${ALIYUN_SMS_SIGN_NAME:}
+      login-template-code: ${ALIYUN_SMS_LOGIN_TEMPLATE_CODE:}
+      change-password-template-code: ${ALIYUN_SMS_CHANGE_PASSWORD_TEMPLATE_CODE:}
+      region-id: ${ALIYUN_SMS_REGION_ID:cn-hangzhou}
