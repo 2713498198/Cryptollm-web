@@ -40,6 +40,31 @@ docker compose -f deploy/compose.yml up -d
 
 首次启动 MySQL 时会自动执行 `database/migrations` 下的 SQL 脚本。
 
+## 阿里云 PNVS 短信认证配置
+
+在 `deploy/.env` 中配置阿里云号码认证服务参数：
+
+```dotenv
+ALIYUN_SMS_ACCESS_KEY_ID=替换为RAM用户的AccessKeyId
+ALIYUN_SMS_ACCESS_KEY_SECRET=替换为RAM用户的AccessKeySecret
+ALIYUN_SMS_SIGN_NAME=恒创联众
+ALIYUN_SMS_LOGIN_TEMPLATE_CODE=100001
+ALIYUN_SMS_CHANGE_PASSWORD_TEMPLATE_CODE=100001
+ALIYUN_SMS_REGION_ID=cn-hangzhou
+```
+
+阿里云 RAM 用户需要具备 `dypns:SendSmsVerifyCode` 权限，也可以临时使用
+`AliyunDypnsFullAccess`。PNVS 使用平台预置签名和验证码模板，不需要申请企业签名与模板。
+
+代码调用 `SendSmsVerifyCode`，模板参数为 `code` 和 `min`。当前平台模板
+`100001` 的内容为：
+
+```text
+您的验证码为${code}。尊敬的客户，以上验证码${min}分钟内有效，请注意保密，切勿告知他人。
+```
+
+登录和修改密码可以共用该模板。AccessKey Secret 只能通过环境变量注入，不要提交到 Git。
+
 ## 检查服务
 
 ```bash
