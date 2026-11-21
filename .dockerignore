@@ -1,0 +1,9 @@
+.git
+.next
+node_modules
+backend
+database
+deploy
+document.md
+npm-debug.log*
+*.tsbuildinfo
